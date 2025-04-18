@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Semantic Kernel</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/nwwz.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/tomorrow-night-blue.css">
+
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Semantic Kernel</h1>
+                    <img class="r-stretch" style="clip-path: inset(0 0 25% 0);" data-src="SK-logo.png" alt="">
+                    <h2 style="color: #4dba85;">an AI orchestration framework</h2>
+                    <br>
+                    <span>Jos Hendriks { <span style="color: #d8a0df;">.NET wat we zoeken</span> }</span>
+				</section>
+
+				<section data-breadcrumb="Introduction">
+					<h2>Semantic Kernel what is it?</h2>
+
+                    A framework and SDK to use AI stuff
+
+                    <br>
+                    <div class="fragment">
+                    in Python, Java & <span style="color: #d8a0df;">C#</span>
+                    </div>
+				</section>
+
+                <section data-breadcrumb="Introduction">
+                    <h1>Agenda</h1>
+                    <ol>
+                        <li>Chat</li>
+                        <li>Vision</li>
+                        <li>Search</li>
+                        <li>Tools & MCP</li>
+                        <li>Agents</li>
+                    </ol>
+                </section>
+
+                <section data-visibility="hidden">
+                    <h1>About me</h1>
+                    <br /><h4 style="color: #4dba85;">Jos Hendriks</h4>
+                    <h4>dad | husband | cyclist | metalhead</h4>
+                    <h4 style="color: #4dba85;">Independent developer, architect, techlead</h4>
+                    <h4>22 years in software.
+                        Ranging from technical automation <br />
+                        to building SaaS solutions</h4>
+
+                    <br /><span>✉️ jos@netwatwezoeken.nl</span>
+                    <br /><span>📃 netwatwezoeken.nl</span>
+                </section>
+
+                <section data-breadcrumb="Chat">
+                    <section>
+                        <h2 style="color: #4dba85;">Chat example</h2>
+                        <aside class="notes">
+                            Who here knows OpenAI, Claude, Gemini, Ollama
+                        </aside>
+                    </section>
+                    <section>
+                      <pre><code data-trim class="language-csharp">
+// Copyright (c) Microsoft. All rights reserved.
+
+using Microsoft.SemanticKernel;
+
+namespace GettingStarted;
+
+public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(output)
+{
+    /// <summary>
+    /// Show how to construct a chat prompt and invoke it.
+    /// </summary>
+    [Fact]
+    public async Task InvokeChatPrompt()
+    {
+        // Create a kernel with OpenAI chat completion
+        Kernel kernel = Kernel.CreateBuilder()
+            .AddOpenAIChatCompletion(
+                modelId: TestConfiguration.OpenAI.ChatModelId,
+                apiKey: TestConfiguration.OpenAI.ApiKey)
+            .Build();
+
+        // Invoke the kernel with a chat prompt and display the result
+        string chatPrompt = """
+            <message role="user">What is Seattle?</message>
+            <message role="system">Respond with JSON.</message>
+            """;
+
+        Console.WriteLine(await kernel.InvokePromptAsync(chatPrompt));
+    }
+}
+                      </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <h1>Thanks!</h1>
+                </section>
+            </div>
+            <div class="bottom">{.NET wat we zoeken}</div>
+        </div>
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js"></script>
+        <script src="plugin/loadcontent/loadcontent.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                 highlight: {
+                     highlightOnLoad: true
+                 },
+                hash: true,
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealLoadContent],
+                dependencies: [
+                    { src: 'plugin/tagcloud/tagcloud.js', async: true }
+                ],
+                showNotes: false,
+                pdfMaxPagesPerSlide: 1,
+                pdfSeparateFragments: false
+            }).then(() => {
+                const highlight = Reveal.getPlugin( 'highlight' );
+                highlight.highlightBlock(document.getElementById("fb"));
+            });
+
+            Reveal.addEventListener('slidechanged',function(event)  {
+                if(event.currentSlide.getAttribute("animate") === 'true') {
+                    var animate = document.getElementsByName("animate");
+                    animate.forEach((child) => { child.beginElement() });
+                    if (animate) {
+                        animate.beginElement();
+                    }
+                }
+            });
+
+            Reveal.addEventListener( 'ready', function( event ) {
+                var banners = '<div id="banners"><header \/><\/div>';
+                $('section').each(function (index, slide ) {
+                    if ($(slide).children('section').length == 0) {
+                        var bannerText = $(slide).closest('[data-breadcrumb]').data('breadcrumb');
+                        if (bannerText) {
+                            var background = $(slide.slideBackgroundElement);
+                            background.append(banners);
+                            background.find('header').text(bannerText);
+                        }
+                    }
+                });
+
+
+            });
+        </script>
+    </body>
+</html>

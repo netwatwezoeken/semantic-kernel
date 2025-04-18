@@ -1,0 +1,78 @@
+/**
+ * Black theme for reveal.js. This is the opposite of the 'white' theme.
+ *
+ * By Hakim El Hattab, http://hakim.se
+ */
+
+
+// Default mixins and settings -----------------
+@import "../template/mixins";
+@import "../template/settings";
+// ---------------------------------------------
+
+
+// Include theme-specific fonts
+//@import url(./fonts/source-sans-pro/source-sans-pro.css);
+
+
+// Override theme settings (see ../template/settings.scss)
+$backgroundColor: #181818;
+
+$mainColor: #bbbbbb;
+$headingColor: #b8d7a3;
+
+$mainFontSize: 32px;
+$mainFont: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+$headingFont: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+$heading1Size: 80px;
+$heading2Size: 60px;
+$heading3Size: 50px;
+$headingTextShadow: none;
+$headingLetterSpacing: normal;
+$headingTextTransform: none;
+$headingFontWeight: 400;
+$linkColor: #79b8ff;
+$linkColorHover: lighten( $linkColor, 15% );
+$selectionBackgroundColor: rgba( $linkColor, 0.75 );
+
+$heading1Size: 2.5em;
+$heading2Size: 1.6em;
+$heading3Size: 1.3em;
+$heading4Size: 1.0em;
+
+.correct {color: forestgreen}
+.correct:before { content:"\2713\0020"; }
+
+.wrong {color: firebrick}
+.wrong:before { content:"X\0020"; }
+
+ul.question1 li:nth-child(1):before {
+    content: "++";
+    padding-right: 7px;
+}
+
+.bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 80%;
+    margin: 10px;
+    color: #303030;
+}
+
+#banners {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    color: #4dba85;
+}
+
+// Change text colors against light slide backgrounds
+@include light-bg-text-color(#222);
+
+
+// Theme template ------------------------------
+@import "../template/theme";
+// ---------------------------------------------
+
