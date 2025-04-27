@@ -16,10 +16,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="00010-28.jpg">
+      <None Update="ImageRecognition\00010-28.jpg">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="music-assistant.prompty">
+      <None Update="Functions\music-assistant.prompty">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Prompty\music-assistant.prompty">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

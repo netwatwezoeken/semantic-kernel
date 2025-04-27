@@ -1,7 +1,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-namespace Examples;
+namespace Examples.BasicChat;
 
 public class BasicChat : IExample 
 {
@@ -16,9 +16,4 @@ public class BasicChat : IExample
 
         return result.First().Content ?? "";
     }
-}
-
-public interface IExample
-{
-    public Task<string> Execute();
 }

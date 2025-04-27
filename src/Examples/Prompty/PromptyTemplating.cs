@@ -1,8 +1,7 @@
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Ollama;
 
-namespace Examples;
+namespace Examples.Prompty;
 
 public class PromptyTemplating : IExample 
 {
@@ -11,9 +10,8 @@ public class PromptyTemplating : IExample
         var kernel = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
             .Build();
-
         
-        var promptyTemplate = await File.ReadAllTextAsync($"./music-assistant.prompty");
+        var promptyTemplate = await File.ReadAllTextAsync($"./Prompty/music-assistant.prompty");
         
         var function = kernel.CreateFunctionFromPrompty(promptyTemplate);
         var arguments = new KernelArguments(new OllamaPromptExecutionSettings()

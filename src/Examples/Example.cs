@@ -1,4 +1,4 @@
-using Examples;
+namespace Examples;
 
 public class Example<T>() where T : IExample, new()
 {

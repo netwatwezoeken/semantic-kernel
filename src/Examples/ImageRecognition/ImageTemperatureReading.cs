@@ -1,7 +1,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-namespace Examples;
+namespace Examples.ImageRecognition;
 
 public class ImageTemperatureReading : IExample 
 {
@@ -23,7 +23,7 @@ public class ImageTemperatureReading : IExample
             Give only the number in your response.
             """
         );
-        var fileBytes = await File.ReadAllBytesAsync($"./00010-28.jpg");
+        var fileBytes = await File.ReadAllBytesAsync($"./ImageRecognition/00010-28.jpg");
         chatHistory.AddUserMessage([
             new TextContent("Just return the number without any symbols"),
             new ImageContent(fileBytes, "image/jpeg")

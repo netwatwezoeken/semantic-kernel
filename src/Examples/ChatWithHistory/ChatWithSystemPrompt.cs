@@ -1,7 +1,7 @@
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
 
-namespace Examples;
+namespace Examples.ChatWithHistory;
 
 public class ChatWithSystemPrompt : IExample 
 {
