@@ -68,6 +68,10 @@ ul.question1 li:nth-child(1):before {
     color: #4dba85;
 }
 
+div.mermaid > svg {
+    max-width: none !important;
+}
+
 // Change text colors against light slide backgrounds
 @include light-bg-text-color(#222);
 

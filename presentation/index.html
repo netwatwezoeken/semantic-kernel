@@ -11,7 +11,8 @@
 		<link rel="stylesheet" href="dist/theme/nwwz.css">
 
 		<!-- Theme used for syntax highlighted code -->
-		<link rel="stylesheet" href="plugin/highlight/tomorrow-night-blue.css">
+<!--		<link rel="stylesheet" href="plugin/highlight/monokai.css">-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.css">
 
 	</head>
 	<body>
@@ -20,31 +21,31 @@
 				<section>
 					<h1>Semantic Kernel</h1>
                     <img class="r-stretch" style="clip-path: inset(0 0 25% 0);" data-src="SK-logo.png" alt="">
-                    <h2 style="color: #4dba85;">an AI orchestration framework</h2>
+                    <!--<h2 style="color: #4dba85;">an AI orchestration framework</h2>-->
                     <br>
-                    <span>Jos Hendriks { <span style="color: #d8a0df;">.NET wat we zoeken</span> }</span>
+                    <!--<span>Jos Hendriks { <span style="color: #d8a0df;">.NET wat we zoeken</span> }</span>-->
 				</section>
 
-				<section data-breadcrumb="Introduction">
-					<h2>Semantic Kernel what is it?</h2>
+                <section>
+                    <img class="r-stretch" style="clip-path: inset(0 0 0 0);" data-src="n8n-AI-agent.png" alt="">
+                    <aside class="notes">
+                        Who has seen an image like this one before?
+                        Who here knows OpenAI, Claude, Gemini, Ollama
+                    </aside>
+                </section>
 
-                    A framework and SDK to use AI stuff
+                <section>
+                    <h2>Semantic Kernel?</h2>
+
+                    <li class="fragment">AI orchestration framework</li>
+                    <li class="fragment">Search & Vectors</li>
+                    <li class="fragment">Tools & MCP</li>
+                    <li class="fragment">Agents</li>
 
                     <br>
                     <div class="fragment">
-                    in Python, Java & <span style="color: #d8a0df;">C#</span>
+                        in Python, Java & <span style="color: #d8a0df;">C#</span>
                     </div>
-				</section>
-
-                <section data-breadcrumb="Introduction">
-                    <h1>Agenda</h1>
-                    <ol>
-                        <li>Chat</li>
-                        <li>Vision</li>
-                        <li>Search</li>
-                        <li>Tools & MCP</li>
-                        <li>Agents</li>
-                    </ol>
                 </section>
 
                 <section data-visibility="hidden">
@@ -60,15 +61,62 @@
                     <br /><span>📃 netwatwezoeken.nl</span>
                 </section>
 
-                <section data-breadcrumb="Chat">
+                <section>
+                <section>
+                    <h3>Basic</h3>
+                    <br />
+                    <br />
+                    <div class="mermaid">
+        <pre>
+          %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+flowchart LR
+    n3["LLM"] --> n4(["Output"])
+    A(["Input"]) --> n3
+    n3@{ shape: hex}
+        </pre>
+                    </div>
+                </section>
+                <section>
+<pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
+
+var chat = kernel.GetRequiredService<IChatCompletionService>();
+</code></pre>
+                </section>
+                </section>
+                <section>
+                    <h3>ChatHistory</h3>
+                    <br />
+                    <br />
+                    <div class="mermaid">
+        <pre>
+          %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+flowchart LR
+    n2["ChatHistory"] -- Request --> n3["LLM"]
+    A(["Input"]) -- add --> n2
+    n3 --> n4(["Output"])
+    n3 -- llm output --> n2
+    n2@{ shape: cyl}
+    n3@{ shape: hex}
+        </pre>
+                    </div>
+                </section>
+
+                <section>
                     <section>
                         <h2 style="color: #4dba85;">Chat example</h2>
-                        <aside class="notes">
-                            Who here knows OpenAI, Claude, Gemini, Ollama
-                        </aside>
+                        <pre><code data-trim data-noescape>
+(def lazy-fib
+  (concat
+   [0 1]
+   ((fn rfib [a b]
+        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
+  </code></pre>
                     </section>
                     <section>
-                      <pre><code data-trim class="language-csharp">
+                      <pre><code class="language-csharp">
 // Copyright (c) Microsoft. All rights reserved.
 
 using Microsoft.SemanticKernel;
@@ -116,6 +164,8 @@ public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(outpu
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js"></script>
         <script src="plugin/loadcontent/loadcontent.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script>
+
         <script>
             // More info about initialization & config:
             // - https://revealjs.com/initialization/
@@ -126,10 +176,13 @@ public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(outpu
                  },
                 hash: true,
                 // Learn about plugins: https://revealjs.com/plugins/
-                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealLoadContent],
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealLoadContent, RevealMermaid],
                 dependencies: [
                     { src: 'plugin/tagcloud/tagcloud.js', async: true }
                 ],
+
+                mermaid: {  },
+
                 showNotes: false,
                 pdfMaxPagesPerSlide: 1,
                 pdfSeparateFragments: false
@@ -146,22 +199,6 @@ public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(outpu
                         animate.beginElement();
                     }
                 }
-            });
-
-            Reveal.addEventListener( 'ready', function( event ) {
-                var banners = '<div id="banners"><header \/><\/div>';
-                $('section').each(function (index, slide ) {
-                    if ($(slide).children('section').length == 0) {
-                        var bannerText = $(slide).closest('[data-breadcrumb]').data('breadcrumb');
-                        if (bannerText) {
-                            var background = $(slide.slideBackgroundElement);
-                            background.append(banners);
-                            background.find('header').text(bannerText);
-                        }
-                    }
-                });
-
-
             });
         </script>
     </body>
