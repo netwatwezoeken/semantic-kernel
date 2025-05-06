@@ -34,16 +34,16 @@
                 </section>
 
                 <section>
-                    <h2>Semantic Kernel?</h2>
-
-                    <li class="fragment">AI orchestration framework</li>
-                    <li class="fragment">Search & Vectors</li>
-                    <li class="fragment">Tools & MCP</li>
-                    <li class="fragment">Agents</li>
-
+                    <ul>
+                        <li class="fragment">AI orchestration framework</li>
+                        <li class="fragment">Search & Vectors</li>
+                        <li class="fragment">Tools & MCP</li>
+                        <li class="fragment">Agents</li>
+                    </ul>
+                    <br>
                     <br>
                     <div class="fragment">
-                        in Python, Java & <span style="color: #d8a0df;">C#</span>
+                        Available for Python, Java & <span style="color: #d8a0df;">C#</span>
                     </div>
                 </section>
 
@@ -78,17 +78,27 @@
                     </section>
                     <section>
     <pre><code data-trim data-noescape>
-    var kernel = Kernel.CreateBuilder()
-        .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-        .Build();
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
 
-    var chat = kernel.GetRequiredService<IChatCompletionService>();
+var chat = kernel.GetRequiredService<IChatCompletionService>();
+
+while (true)
+{
+    Console.Write("You: ");
+    var question = Console.ReadLine();
+
+    var result = await chat.GetChatMessageContentsAsync(question ?? "");
+
+    Console.WriteLine("LLM: " + result.First().Content ?? "");
+}
     </code></pre>
                     </section>
                 </section>
                 <section>
                     <section>
-                        <h3>Chat history context</h3>
+                        <h3>Chat history</h3>
                         <br />
                         <br />
                         <div class="mermaid">
@@ -107,11 +117,115 @@
                     </section>
                     <section>
     <pre><code data-trim data-noescape>
-    var kernel = Kernel.CreateBuilder()
-        .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-        .Build();
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
 
-    var chat = kernel.GetRequiredService<IChatCompletionService>();
+var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+var chatHistory = new ChatHistory();
+chatHistory.AddSystemMessage(
+    """
+    You are a helpful metal music expert.
+    Your task is to provide the best music advice and facts about metal music for the user.
+    Only metal music of course. Hell yeah! 🤘
+    """
+);
+chatHistory.AddUserMessage([
+    new TextContent("Which band invented metal? Just give the band name, no explanation.")
+]);
+var chatResult = await chatCompletionService.GetChatMessageContentAsync(chatHistory);
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Templating</h3>
+                        <br />
+                        <br />
+                        Prompty VS Code demo + code demo
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Functions (tools)</h3>
+                        <br />
+                        <br />
+                        <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart LR
+        user(["User"]) -- input --> history
+        history["ChatHistory"] -- context --> llm["LLM"]
+
+        llm -- add output --> history
+        history -- output --> user
+        history@{ shape: cyl}
+        llm@{ shape: hex}
+            </pre>
+                        </div>
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>MCP</h3>
+                        <br />
+                        <br />
+                        MCP the "OpenApi" equivalent for tools and resources
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>RAG</h3>
+                        <br />
+                        <br />
+                        RAG with User Stories
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h3>Agents</h3>
+                        <br />
+                        <br />
+                        Theory on agents, no demo
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+var kernel = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+    .Build();
     </code></pre>
                     </section>
                 </section>
