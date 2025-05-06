@@ -11,7 +11,6 @@
 		<link rel="stylesheet" href="dist/theme/nwwz.css">
 
 		<!-- Theme used for syntax highlighted code -->
-<!--		<link rel="stylesheet" href="plugin/highlight/monokai.css">-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.css">
 
 	</head>
@@ -62,92 +61,58 @@
                 </section>
 
                 <section>
-                <section>
-                    <h3>Basic</h3>
-                    <br />
-                    <br />
-                    <div class="mermaid">
-        <pre>
-          %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-flowchart LR
-    n3["LLM"] --> n4(["Output"])
-    A(["Input"]) --> n3
-    n3@{ shape: hex}
-        </pre>
-                    </div>
-                </section>
-                <section>
-<pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
-
-var chat = kernel.GetRequiredService<IChatCompletionService>();
-</code></pre>
-                </section>
-                </section>
-                <section>
-                    <h3>ChatHistory</h3>
-                    <br />
-                    <br />
-                    <div class="mermaid">
-        <pre>
-          %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
-flowchart LR
-    n2["ChatHistory"] -- Request --> n3["LLM"]
-    A(["Input"]) -- add --> n2
-    n3 --> n4(["Output"])
-    n3 -- llm output --> n2
-    n2@{ shape: cyl}
-    n3@{ shape: hex}
-        </pre>
-                    </div>
-                </section>
-
-                <section>
                     <section>
-                        <h2 style="color: #4dba85;">Chat example</h2>
-                        <pre><code data-trim data-noescape>
-(def lazy-fib
-  (concat
-   [0 1]
-   ((fn rfib [a b]
-        (lazy-cons (+ a b) (rfib b (+ a b)))) 0 1)))
-  </code></pre>
+                        <h3>Basic</h3>
+                        <br />
+                        <br />
+                        <div class="mermaid">
+                           <pre>
+    %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart LR
+        user(["User"]) -- input --> llm["LLM"]
+
+        llm -- output --> user
+        llm@{ shape: hex}
+                            </pre>
+                        </div>
                     </section>
                     <section>
-                      <pre><code class="language-csharp">
-// Copyright (c) Microsoft. All rights reserved.
+    <pre><code data-trim data-noescape>
+    var kernel = Kernel.CreateBuilder()
+        .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+        .Build();
 
-using Microsoft.SemanticKernel;
+    var chat = kernel.GetRequiredService<IChatCompletionService>();
+    </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Chat history context</h3>
+                        <br />
+                        <br />
+                        <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart LR
+        user(["User"]) -- input --> history
+        history["ChatHistory"] -- context --> llm["LLM"]
 
-namespace GettingStarted;
+        llm -- add output --> history
+        history -- output --> user
+        history@{ shape: cyl}
+        llm@{ shape: hex}
+            </pre>
+                        </div>
+                    </section>
+                    <section>
+    <pre><code data-trim data-noescape>
+    var kernel = Kernel.CreateBuilder()
+        .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+        .Build();
 
-public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(output)
-{
-    /// <summary>
-    /// Show how to construct a chat prompt and invoke it.
-    /// </summary>
-    [Fact]
-    public async Task InvokeChatPrompt()
-    {
-        // Create a kernel with OpenAI chat completion
-        Kernel kernel = Kernel.CreateBuilder()
-            .AddOpenAIChatCompletion(
-                modelId: TestConfiguration.OpenAI.ChatModelId,
-                apiKey: TestConfiguration.OpenAI.ApiKey)
-            .Build();
-
-        // Invoke the kernel with a chat prompt and display the result
-        string chatPrompt = """
-            <message role="user">What is Seattle?</message>
-            <message role="system">Respond with JSON.</message>
-            """;
-
-        Console.WriteLine(await kernel.InvokePromptAsync(chatPrompt));
-    }
-}
-                      </code></pre>
+    var chat = kernel.GetRequiredService<IChatCompletionService>();
+    </code></pre>
                     </section>
                 </section>
 
@@ -161,7 +126,6 @@ public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(outpu
         <script src="plugin/notes/notes.js"></script>
         <script src="plugin/markdown/markdown.js"></script>
         <script src="plugin/highlight/highlight.js"></script>
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/svg.js/3.1.2/svg.min.js"></script>
         <script src="plugin/loadcontent/loadcontent.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script>
@@ -189,16 +153,6 @@ public sealed class Step5_Chat_Prompt(ITestOutputHelper output) : BaseTest(outpu
             }).then(() => {
                 const highlight = Reveal.getPlugin( 'highlight' );
                 highlight.highlightBlock(document.getElementById("fb"));
-            });
-
-            Reveal.addEventListener('slidechanged',function(event)  {
-                if(event.currentSlide.getAttribute("animate") === 'true') {
-                    var animate = document.getElementsByName("animate");
-                    animate.forEach((child) => { child.beginElement() });
-                    if (animate) {
-                        animate.beginElement();
-                    }
-                }
             });
         </script>
     </body>

@@ -44,6 +44,7 @@ ul.question1 li:nth-child(1):before {
 
 div.mermaid > svg {
   max-width: none !important;
+  height: 100%;
 }
 
 section.has-light-background, section.has-light-background h1, section.has-light-background h2, section.has-light-background h3, section.has-light-background h4, section.has-light-background h5, section.has-light-background h6 {
