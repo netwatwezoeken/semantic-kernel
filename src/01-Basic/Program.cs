@@ -17,5 +17,5 @@ while (true)
     Console.Write("You: ");
     var question = Console.ReadLine();
     var result = await chat.GetChatMessageContentsAsync(question ?? "");
-    Console.WriteLine("LLM: " + result.First().Content ?? "");
+    Console.WriteLine("LLM: " + result[0].Content ?? "");
 }

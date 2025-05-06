@@ -24,6 +24,4 @@ chatHistory.AddUserMessage([
 ]);
 
 var chatResult = await chatCompletionService.GetChatMessageContentAsync(chatHistory);
-Console.WriteLine("LLM: " + chatResult.Content ?? "");
-return;
-
+Console.WriteLine("LLM: " + chatResult.Content);

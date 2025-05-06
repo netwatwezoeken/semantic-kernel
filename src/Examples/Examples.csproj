@@ -22,9 +22,6 @@
       <None Update="Functions\music-assistant.prompty">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="Prompty\music-assistant.prompty">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="EmbeddingsAndVectorStore\issues.csv">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

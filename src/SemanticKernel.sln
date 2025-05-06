@@ -14,6 +14,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02-ChatHistory", "02-ChatHi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedStuff", "SharedStuff\SharedStuff.csproj", "{AFACCCD6-A22F-44AB-8920-DB3D9919A4C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-Templating", "03-Templating\03-Templating.csproj", "{84E69293-6454-43F2-8803-52C43E12FAE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-Functions", "04-Functions\04-Functions.csproj", "{4ACCE70F-6094-446E-B94D-8592DEED48FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{AFACCCD6-A22F-44AB-8920-DB3D9919A4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFACCCD6-A22F-44AB-8920-DB3D9919A4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFACCCD6-A22F-44AB-8920-DB3D9919A4C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84E69293-6454-43F2-8803-52C43E12FAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84E69293-6454-43F2-8803-52C43E12FAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84E69293-6454-43F2-8803-52C43E12FAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84E69293-6454-43F2-8803-52C43E12FAE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

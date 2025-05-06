@@ -94,6 +94,12 @@ while (true)
     Console.WriteLine("LLM: " + result.First().Content ?? "");
 }
     </code></pre>
+                        <aside class="notes">
+                            <ul>
+                                <li>use of Ollama</li>
+                                <li>simple loop</li>
+                            </ul>
+                        </aside>
                     </section>
                 </section>
                 <section>
@@ -114,6 +120,9 @@ while (true)
         llm@{ shape: hex}
             </pre>
                         </div>
+                        <aside class="notes">
+                            This is what the average chatbot does to keep track of the conversation.
+                        </aside>
                     </section>
                     <section>
     <pre><code data-trim data-noescape>
@@ -121,7 +130,7 @@ var kernel = Kernel.CreateBuilder()
     .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
     .Build();
 
-var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
+var chatCompletionService = kernel.GetRequiredService&lt;IChatCompletionService&gt;();
 var chatHistory = new ChatHistory();
 chatHistory.AddSystemMessage(
     """
@@ -140,17 +149,50 @@ var chatResult = await chatCompletionService.GetChatMessageContentAsync(chatHist
 
                 <section>
                     <section>
-                        <h3>Templating</h3>
+                        <h3>Templating (with <a target="_blank" href="https://prompty.ai/">prompty.ai</a>)</h3>
                         <br />
                         <br />
-                        Prompty VS Code demo + code demo
+                        <div class="mermaid">
+            <pre>
+              %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart LR
+        user(["User"]) -- input --> template
+        template["Template"] --> llm["LLM"]
+
+        llm -- output --> user
+        template@{ shape: doc}
+        llm@{ shape: hex}
+            </pre>
+                        </div>
                     </section>
                     <section>
     <pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
+---
+name: Metal_music_assistant
+description: A prompt that leads to proper music advice 🎸
+model:
+  api: chat
+  configuration:
+    name: gemma3:4b
+sample:
+  question: "Which band invented metal?"
+---
+
+system:
+You are a helpful metal music expert.
+Your task is to provide the best music advice and facts about metal music for the user.
+Only metal music of course. Hell yeah! 🤘
+Never give an explanation unless explicitly asked.
+
+user:
+{{question}}
     </code></pre>
+                        <aside class="notes">
+                            <ul>
+                                <li>Do a demo in Visual Studio Code with Prompty</li>
+                                <li>Explain how this could separate prompt development from code development</li>
+                            </ul>
+                        </aside>
                     </section>
                 </section>
 
@@ -161,23 +203,36 @@ var kernel = Kernel.CreateBuilder()
                         <br />
                         <div class="mermaid">
             <pre>
-              %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
     flowchart LR
-        user(["User"]) -- input --> history
-        history["ChatHistory"] -- context --> llm["LLM"]
+        user(["User"]) -- input --> llm["LLM"]
 
-        llm -- add output --> history
-        history -- output --> user
-        history@{ shape: cyl}
+        llm -- output --> user
+        llm -- call --> tool
         llm@{ shape: hex}
+                tool@{ shape: lin-rect}
             </pre>
                         </div>
                     </section>
                     <section>
+                        <pre>
+        <code data-trim data-noescape>
+public class MusicPlayerPlugin
+{
+    [KernelFunction("play_song")]
+    public void PlaySong(string artist, string song)
+    {
+        Console.WriteLine($"MusicPlayerPlugin: Playing {song} by {artist}");
+    }
+}
+    </code></pre>
     <pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
+var kernelBuilder = Kernel.CreateBuilder()
+    .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"));
+
+kernelBuilder.Plugins.AddFromType&lt;MusicPlayerPlugin&gt;("PlaySong");
+
+var kernel = kernelBuilder.Build();
     </code></pre>
                     </section>
                 </section>

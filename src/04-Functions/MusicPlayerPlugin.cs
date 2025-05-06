@@ -1,6 +1,6 @@
 using Microsoft.SemanticKernel;
 
-namespace Examples.Functions;
+namespace _04_Functions;
 
 public class MusicPlayerPlugin
 {
