@@ -10,9 +10,11 @@ kernelBuilder.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
         
 var kernel = kernelBuilder.Build();
 
+kernel.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
 var promptyTemplate = await File.ReadAllTextAsync($"./music-assistant.prompty");
         
 var function = kernel.CreateFunctionFromPrompty(promptyTemplate);
+
 var arguments = new KernelArguments(new OllamaPromptExecutionSettings()
 {
     FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),

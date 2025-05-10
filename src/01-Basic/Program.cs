@@ -8,7 +8,7 @@ var kernel = Kernel.CreateBuilder()
 
 var chat = kernel.GetRequiredService<IChatCompletionService>();
 
-var initialQuestion =DemoUtil.SimulateTyping("Which band invented metal? Just give the band name, no explanation.");
+var initialQuestion = DemoUtil.SimulateTyping("Which band invented metal? Just give the band name, no explanation.");
 var initialResult = await chat.GetChatMessageContentsAsync(initialQuestion ?? "");
 Console.WriteLine("LLM: " + initialResult.First().Content ?? "");
 

@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03-Templating", "03-Templat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04-Functions", "04-Functions\04-Functions.csproj", "{4ACCE70F-6094-446E-B94D-8592DEED48FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05a-MCPClient", "05a-MCPClient\05a-MCPClient.csproj", "{DD5904E5-6743-48A7-8486-04EB8F9917DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05b-MCPServer", "05b-MCPServer\05b-MCPServer.csproj", "{8B01B0A2-CFD3-426D-8084-5F44961900D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +52,13 @@ Global
 		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4ACCE70F-6094-446E-B94D-8592DEED48FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD5904E5-6743-48A7-8486-04EB8F9917DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD5904E5-6743-48A7-8486-04EB8F9917DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD5904E5-6743-48A7-8486-04EB8F9917DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD5904E5-6743-48A7-8486-04EB8F9917DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

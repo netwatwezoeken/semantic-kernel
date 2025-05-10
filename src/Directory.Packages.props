@@ -5,11 +5,14 @@
   <ItemGroup>
     <PackageVersion Include="CsvHelper" Version="33.0.1" />
     <PackageVersion Include="Microsoft.Extensions.AI.Ollama" Version="9.4.0-preview.1.25207.5" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
     <PackageVersion Include="Microsoft.SemanticKernel.Agents.Core" Version="1.47.0" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.48.0-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.47.0-alpha" />
     <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.48.0-preview" />
     <PackageVersion Include="Microsoft.SemanticKernel.Prompty" Version="1.47.0-beta" />
+    <PackageVersion Include="ModelContextProtocol" Version="0.1.0-preview.12" />
+    <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.1.0-preview.12" />
     <PackageVersion Include="StackExchange.Redis" Version="2.8.31" />
   </ItemGroup>
 </Project>
