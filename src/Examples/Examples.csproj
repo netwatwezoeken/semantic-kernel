@@ -16,9 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="ImageRecognition\00010-28.jpg">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="Functions\music-assistant.prompty">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>

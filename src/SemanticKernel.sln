@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05a-MCPClient", "05a-MCPCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05b-MCPServer", "05b-MCPServer\05b-MCPServer.csproj", "{8B01B0A2-CFD3-426D-8084-5F44961900D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02b-Images", "02b-Images\02b-Images.csproj", "{23776E80-3098-4B25-8459-FA183CFF2B18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +62,9 @@ Global
 		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B01B0A2-CFD3-426D-8084-5F44961900D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23776E80-3098-4B25-8459-FA183CFF2B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23776E80-3098-4B25-8459-FA183CFF2B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23776E80-3098-4B25-8459-FA183CFF2B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23776E80-3098-4B25-8459-FA183CFF2B18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

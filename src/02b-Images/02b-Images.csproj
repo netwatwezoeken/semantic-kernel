@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <RootNamespace>_02_ChatHistory</RootNamespace>
+        <RootNamespace>_02b_Images</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,6 +10,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SharedStuff\SharedStuff.csproj" />
+        <ProjectReference Include="..\SharedStuff\SharedStuff.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="00010-28.jpg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

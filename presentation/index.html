@@ -243,18 +243,21 @@ var kernel = kernelBuilder.Build();
                         <br />
                         <br />
                         <ul>
-                            <li>Resources</li>
-                            <li>Tools</li>
-                            <li>Prompts</li>
-                            <li>Sampling</li>
+                            <li class="fragment">Tools</li>
+                            <li class="fragment">Resources</li>
+                            <li class="fragment">Prompts</li>
+                            <li class="fragment">Sampling</li>
                         </ul>
-
-                        MCP the "OpenApi" equivalent for tools and resources
+                        <br>
+                        <br>
+                        <div class="fragment">
+                            I see it as OpenApi for AI stuff
+                        </div>
                         <aside class="notes">
                             <ul>
-                                <li>Tools -> LLM performs actions</li>
-                                <li>Resources -> LLM gets data</li>
-                                <li>Prompts -> Expose prompts for end users</li>
+                                <li>Tools -> Tools are designed to be model-controlled</li>
+                                <li>Resources -> Resources are designed to be application-controlled</li>
+                                <li>Prompts -> Prompts are designed to be user-controlled</li>
                                 <li>Sampling -> "Callback" to the LLM</li>
                             </ul>
                         </aside>
@@ -270,8 +273,8 @@ var kernel = kernelBuilder.Build();
         user(["User"]) -- input --> llm["LLM"]
 
         llm -- output --> user
-        llm -- call --> mcpclient["MCP Client"]
-        mcpclient -- call --> mcpserver["MCP Server"]
+        llm -- call --> mcpclient["MCP (tool) Client"]
+        mcpclient -- http/stdio --> mcpserver["MCP Server"]
         llm@{ shape: hex}
             </pre>
                         </div>
@@ -281,35 +284,18 @@ var kernel = kernelBuilder.Build();
 var kernelBuilder = Kernel.CreateBuilder()
     .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"));
 
+var transport = new SseClientTransport(new SseClientTransportOptions
+{
+    Endpoint = new Uri("http://localhost:3001"),
+    UseStreamableHttp = true,
+});
+
 var mcpClient = await McpClientFactory.CreateAsync(transport);
 var tools = await mcpClient.ListToolsAsync();
 
 kernel.Plugins.AddFromFunctions("McpTools", tools.Select(f => f.AsKernelFunction()));
 
 var kernel = kernelBuilder.Build();
-    </code></pre>
-                    </section>
-                </section>
-
-                <section>
-                    <section>
-                        <h3>MCP</h3>
-                        <br />
-                        <br />
-                        <ul>
-                            <li>Resources: Expose data and content from your servers to LLMs</li>
-                            <li>Tools -> Enable LLMs to perform actions through your server</li>
-                            <li>Prompts -> Create reusable prompt templates and workflows</li>
-                            <li>Sampling -> Let your servers request completions from LLMs</li>
-                        </ul>
-
-                        MCP the "OpenApi" equivalent for tools and resources
-                    </section>
-                    <section>
-    <pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
     </code></pre>
                     </section>
                 </section>

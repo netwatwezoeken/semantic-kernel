@@ -1,6 +1,5 @@
 ﻿using Examples;
-using Examples.ImageRecognition;
+using Examples.EmbeddingsAndVectorStore;
 
-await Example<ImageTemperatureReading>.Run();
-// await Example<EmbeddingsAndVectorStore>.Run();
+await Example<EmbeddingsAndVectorStore>.Run();
 // await new EmbeddingsAndVectorStore().Prepare();
