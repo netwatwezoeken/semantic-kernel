@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\01-Basic\01-Basic.csproj" />
+        <ProjectReference Include="..\..\02-ChatHistory\02-ChatHistory.csproj" />
+        <ProjectReference Include="..\..\06-AgentFramework\06-AgentFramework.csproj" />
+        <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
+        <ProjectReference Include="..\WebUI.Client\WebUI.Client.csproj"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5"/>
+    </ItemGroup>
+
+</Project>

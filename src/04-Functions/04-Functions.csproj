@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\SharedStuff\SharedStuff.csproj" />
+        <ProjectReference Include="..\ConsoleHelper\ConsoleHelper.csproj" />
     </ItemGroup>
 
     <ItemGroup>

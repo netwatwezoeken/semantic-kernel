@@ -1,0 +1,142 @@
+﻿@page "/"
+@page "/demo/{text}"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Plumbing
+@inject NavigationManager Navigation
+@inject IScrollManager ScrollManager
+@inject IJSRuntime JS
+@using Markdig
+
+<div id="chat-content" style="flex: 1; overflow-y: auto;">
+    <!-- Your main scrollable content goes here -->
+    @foreach (var message in messages)
+    {
+        string html = Markdown.ToHtml(@message.Message);
+        //var type = message.From == "user" ? ChatBubblePosition.Start : ChatBubblePosition.End;
+        <MudChat>
+            <MudAvatar>@message.From</MudAvatar>
+            <MudChatBubble>
+                @((MarkupString)html)
+            </MudChatBubble>
+        </MudChat>
+    }
+</div>
+
+<div style="position: sticky; bottom: 0;">
+    <MudTextField @bind-Value="messageInput"  
+                  OnKeyDown="HandleKeyDown"
+                  KeyDownPreventDefault="_preventDefault"
+                  Immediate="true"
+                  Label="You"
+                  Variant="Variant.Text"></MudTextField>
+</div>
+
+
+<br />
+
+@code {
+    private string Value { get; } = "text *italics* and **bold**";
+    
+    [Parameter]
+    public string? Text
+    {
+        get => _value;
+        set
+        {
+            _value = value;
+            if (hubConnection is not null)
+            {
+                messages = [];
+                hubConnection.SendAsync("Select", _value);
+            }
+        } }
+    
+    private HubConnection? hubConnection;
+    bool _preventDefault;
+    private List<ChatMessage> messages = [];
+    private string? userInput;
+    private string? messageInput;
+    private string? _value;
+
+    protected void HandleKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey)
+        {
+            _preventDefault = true;
+            Submit();
+        }
+        else
+        {
+            _preventDefault = false;
+        }
+    }
+    
+    public async Task Submit()
+    {
+        await hubConnection.SendAsync("SendMessage", "user", messageInput);
+        await AddMessage("user", messageInput);
+        messageInput = string.Empty;
+        StateHasChanged();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/chathub"))
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", AddNonUserMessage);
+        hubConnection.On<string>("NewDefaultUserMessage", SetMessage);
+        
+        await hubConnection.StartAsync();
+        if (Text == null)
+        {
+            Navigation.NavigateTo("demo/01 Basic");
+        }
+        await hubConnection.SendAsync("Select", Text);
+    }
+
+    private async Task SetMessage(string? arg)
+    {
+        messageInput = arg;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task AddNonUserMessage(string user, string message)
+    {
+        if (user == "user") return;
+        await AddMessage(user, message);
+    }
+
+    private async Task AddMessage(string user, string message)
+    {
+        messages.Add(new ChatMessage()
+        {
+            From = user,
+            Message = message
+        });
+        await InvokeAsync(StateHasChanged);
+        
+        await JS.InvokeVoidAsync("ScrollChatToBottom", new object[] { });
+    }
+
+    private async Task Send()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("SendMessage", userInput, messageInput);
+        }
+    }
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

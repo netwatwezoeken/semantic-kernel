@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
+        <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Markdig" Version="0.41.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.5" />
+        <PackageReference Include="MudBlazor" Version="8.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
+    </ItemGroup>
+
+</Project>

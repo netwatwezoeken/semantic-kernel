@@ -1,9 +1,6 @@
 ﻿using _05b_MCPServer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.AI;
-using ModelContextProtocol;
-using ModelContextProtocol.Protocol.Types;
 using ModelContextProtocol.Server;
 
 HashSet<IMcpServer> subscriptions = [];

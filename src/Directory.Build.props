@@ -3,6 +3,6 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <NoWarn>SKEXP0040,SKEXP0070,SKEXP0001</NoWarn>
+        <NoWarn>SKEXP0040,SKEXP0070,SKEXP0001,SKEXP0110</NoWarn>
     </PropertyGroup>
 </Project>

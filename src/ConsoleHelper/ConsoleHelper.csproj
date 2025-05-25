@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>SharedStuff</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Plumbing\Plumbing.csproj" />
+    </ItemGroup>
+
+</Project>
