@@ -1,22 +1,9 @@
-﻿using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.Ollama;
-using SharedStuff;
+﻿using SharedStuff;
+using _03_Templating;
+using Plumbing;
 
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
-
-var promptyTemplate = await File.ReadAllTextAsync($"./music-assistant.prompty");
-        
-var function = kernel.CreateFunctionFromPrompty(promptyTemplate);
-var arguments = new KernelArguments(new OllamaPromptExecutionSettings()
-{
-    FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
-    Temperature = 0
-});
-
-var initialQuestion = DemoUtil.SimulateTyping("Which band invented metal?");
-arguments.Add("question", initialQuestion);
-
-var chatResult = await kernel.InvokeAsync(function, arguments);
-Console.WriteLine("LLM: " + chatResult);
+var mr = new MessageRelay();
+var demo = new _03Templating(mr);
+await demo.Start();
+var cw = new ConsoleUi(mr);
+await cw.Run(demo.DemoQuestion!);

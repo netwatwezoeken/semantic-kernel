@@ -10,6 +10,7 @@
     <ItemGroup>
         <ProjectReference Include="..\..\01-Basic\01-Basic.csproj" />
         <ProjectReference Include="..\..\02-ChatHistory\02-ChatHistory.csproj" />
+        <ProjectReference Include="..\..\03-Templating\03-Templating.csproj" />
         <ProjectReference Include="..\..\06-AgentFramework\06-AgentFramework.csproj" />
         <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
         <ProjectReference Include="..\WebUI.Client\WebUI.Client.csproj"/>
