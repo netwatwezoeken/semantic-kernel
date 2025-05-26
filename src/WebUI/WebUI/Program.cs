@@ -2,6 +2,9 @@ using _01_Basic;
 using _02_ChatHistory;
 using _06_AgentFramework;
 using MudBlazor.Services;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 using Plumbing;
 using WebUI;
 using WebUI.Components;
@@ -19,6 +22,8 @@ builder.Services.AddSingleton<DemoSelector>();
 builder.Services.AddSingleton<MessageRelay>();
 builder.Services.AddSignalR();
 
+builder.ConfigureOpenTelemetry();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,7 +39,6 @@ else
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 app.MapHub<ChatHub>("/chathub");

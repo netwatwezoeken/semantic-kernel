@@ -5,6 +5,8 @@ using Microsoft.SemanticKernel.Agents.Orchestration;
 using Microsoft.SemanticKernel.Agents.Orchestration.Sequential;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Plumbing;
+using SharedStuff;
 
 namespace _06_AgentFramework;
 
@@ -13,6 +15,12 @@ public static class Program
     public const int ResultTimeoutInSeconds = 30;
     public static async Task Main()
     {
+        var mr = new MessageRelay();
+        var demo = new _06AgentFramework(mr);
+        await demo.Start();
+        var cw = new ConsoleUi(mr);
+        await cw.Run(demo.DemoQuestion!);
+        
         Console.WriteLine("Creating kernel...");
 
         var kernel = Kernel.CreateBuilder()

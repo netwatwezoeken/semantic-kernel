@@ -2,7 +2,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Orchestration;
-using Microsoft.SemanticKernel.Agents.Orchestration.Sequential;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
 using Microsoft.SemanticKernel.ChatCompletion;
 using Plumbing;
@@ -18,13 +17,21 @@ public class _06AgentFramework : IDemo
     
     private void CreateKernel()
     {
+        var openAiKey = "";
+        
         var kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("llama3.1", new Uri("http://localhost:11434"))
+            //.AddOpenAIChatCompletion(modelId: "gpt-4o-mini", apiKey: openAiKey)
+            .AddOllamaChatCompletion("deepseek-r1:1.5b", new Uri("http://localhost:11434"))
             .Build();
 
+        var kernel2 = Kernel.CreateBuilder()
+            //.AddOpenAIChatCompletion(modelId: "gpt-4o-mini", apiKey: openAiKey)
+            .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"))
+            .Build();
+        
         ChatCompletionAgent analystAgent =
             new () {
-                Name = "Analyst",
+                Name = "analyst",
                 Instructions =
                 """
                 You are a marketing analyst. Given a product description, identify:
@@ -33,7 +40,7 @@ public class _06AgentFramework : IDemo
                 - Unique selling points
                 """,
                 Description = "A agent that extracts key concepts from a product description.",
-                Kernel = kernel.Clone()
+                Kernel = kernel2.Clone()
             };
         ChatCompletionAgent writerAgent =
             new () {
@@ -54,19 +61,14 @@ public class _06AgentFramework : IDemo
                 Instructions =
                     """
                     You are an editor. Given the draft copy, correct grammar, improve clarity, ensure consistent tone,
-                    give format and make it polished. Output the final improved copy as a single text block.
+                    give format, make it shorter and make it polished. Output the final improved copy as a single text block.
                     """,
                 Description = "An agent that formats and proofreads the marketing copy.",
                 Kernel = kernel.Clone()
             };
-
-        // Create a monitor to capturing agent responses (via ResponseCallback)
-        // to display at the end of this sample. (optional)
-        // NOTE: Create your own callback to capture responses in your application or service.
-        //OrchestrationMonitor monitor = new();
-        // Define the orchestration
+        
         _orchestration =
-            new(analystAgent, writerAgent, editorAgent)
+            new CustomSequentialThing<string, string>(analystAgent, writerAgent, editorAgent)
             {
                 ResponseCallback = ResponseCallback,
                 LoggerFactory = LoggerFactory.Create(builder =>
@@ -74,18 +76,25 @@ public class _06AgentFramework : IDemo
                     builder
                         .AddConsole()
                         .SetMinimumLevel(LogLevel.Information);
-                })
+                }),
+                ResultTransform = ResultTransform
             };
+        
          _runtime = new InProcessRuntime();
     }
-    
+
+    private ValueTask<string> ResultTransform(IList<ChatMessageContent> result, CancellationToken cancellationToken)
+    {
+        return new ValueTask<string>(result.Last().Content ?? "");
+    }
+
     private async ValueTask ResponseCallback(ChatMessageContent response)
     {
         Console.WriteLine($"\n# INTERMEDIATE: {response.Content}");
         await _relay.HandleMessageAsync(
             new ChatMessage
             {
-                From = response.AuthorName ?? "assistant",
+                From = response.AuthorName ?? response.Role.Label,
                 Message = response.Content ?? ""
             });
     }
@@ -108,18 +117,17 @@ public class _06AgentFramework : IDemo
 
     private readonly MessageRelay _relay;
     private IChatCompletionService _chat;
-    private SequentialOrchestration _orchestration;
+    private AgentOrchestration<string, string> _orchestration;
     private InProcessRuntime _runtime;
 
     private async Task HandleChatMessage(ChatMessage message)
     {
-        _runtime = new();
+        _runtime = new InProcessRuntime();
         await _runtime.StartAsync();
         if (message.From != "user") return;
-        Console.WriteLine($"\n# INPUT: {message.Message}\n");
-        OrchestrationResult<string> result = await _orchestration.InvokeAsync(message.Message, _runtime);
-        string text = await result.GetValueAsync(TimeSpan.FromSeconds(ResultTimeoutInSeconds));
-        Console.WriteLine($"\n# RESULT: {text}");
+        var result = await _orchestration.InvokeAsync(message.Message, _runtime);
+        var text = await result.GetValueAsync(TimeSpan.FromSeconds(ResultTimeoutInSeconds));
+        Console.WriteLine($"\n#END  RESULT: {text}");
         await _runtime.RunUntilIdleAsync();
     }
     

@@ -14,7 +14,29 @@
         string html = Markdown.ToHtml(@message.Message);
         //var type = message.From == "user" ? ChatBubblePosition.Start : ChatBubblePosition.End;
         <MudChat>
-            <MudAvatar>@message.From</MudAvatar>
+            <MudAvatar>
+                @switch (message.From)
+                {
+                    case "analyst":
+                        <MudImage Src = "dicebear-green-bot.jpg" ></MudImage>
+                        break;
+                    case "copywriter":
+                        <MudImage Src="dicebear-red-bot.jpg"></MudImage>
+                        break;
+                    case "editor":
+                        <MudImage Src="dicebear-purple-bot.jpg"></MudImage>
+                        break;
+                    case "user":
+                        <MudImage Src="dicebear-human.jpg"></MudImage>
+                        break;
+                    case "assistant":
+                        <MudImage Src="dicebear-yellow-bot.jpg" ></MudImage>
+                        break;
+                    default:
+                        @message.From;
+                        break;
+                };
+                </MudAvatar>
             <MudChatBubble>
                 @((MarkupString)html)
             </MudChatBubble>
@@ -116,7 +138,6 @@
             Message = message
         });
         await InvokeAsync(StateHasChanged);
-        
         await JS.InvokeVoidAsync("ScrollChatToBottom", new object[] { });
     }
 
