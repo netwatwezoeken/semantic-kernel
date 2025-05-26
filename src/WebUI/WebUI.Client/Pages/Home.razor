@@ -14,14 +14,13 @@
         string html = Markdown.ToHtml(@message.Message);
         //var type = message.From == "user" ? ChatBubblePosition.Start : ChatBubblePosition.End;
         <MudChat>
-            <MudAvatar Variant="Variant.Filled">
+            <MudChatHeader Name=@message.From>
+            </MudChatHeader>
+            <MudAvatar Variant="Variant.Filled" Style="grid-row-start: 1;">
                 @switch (message.From)
                 {
                     case "analyst":
-                        <MudImage Src = "dicebear-green-bot.jpg" ></MudImage>
-                        break;
-                    case "copywriter":
-                        <MudImage Src="dicebear-red-bot.jpg"></MudImage>
+                        <MudImage Src="dicebear-green-bot.jpg"></MudImage>
                         break;
                     case "editor":
                         <MudImage Src="dicebear-purple-bot.jpg"></MudImage>
@@ -31,13 +30,14 @@
                                      Size="Size.Large"/>
                         break;
                     case "assistant":
-                        <MudImage Src="dicebear-yellow-bot.jpg" ></MudImage>
+                    case "copywriter":
+                        <MudImage Src="dicebear-yellow-bot.jpg"></MudImage>
                         break;
                     default:
                         @message.From
                         break;
                 }
-                </MudAvatar>
+            </MudAvatar>
             <MudChatBubble>
                 @((MarkupString)html)
             </MudChatBubble>

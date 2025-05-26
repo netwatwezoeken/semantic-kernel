@@ -33,12 +33,12 @@ public class _06AgentFramework : IDemo
             new () {
                 Name = "analyst",
                 Instructions =
-                """
-                You are a marketing analyst. Given a product description, identify:
-                - Key features
-                - Target audience
-                - Unique selling points
-                """,
+                    """
+                    You are a marketing analyst. Given a product description, identify:
+                    - Key features
+                    - Target audience
+                    - Unique selling points
+                    """,
                 Description = "A agent that extracts key concepts from a product description.",
                 Kernel = kernel2.Clone()
             };
@@ -46,11 +46,11 @@ public class _06AgentFramework : IDemo
             new () {
                 Name = "copywriter",
                 Instructions = 
-                """
-                You are a marketing copywriter. Given a block of text describing features, audience, and USPs,
-                compose a compelling marketing copy (like a newsletter section) that highlights these points.
-                Output should be short (around 150 words), output just the copy as a single text block.
-                """,
+                    """
+                    You are a marketing copywriter. Given a block of text describing features, audience, and USPs,
+                    compose a compelling marketing copy (like a newsletter section) that highlights these points.
+                    Output should be short (around 150 words), output just the copy as a single text block.
+                    """,
                 Description =  "An agent that writes a marketing copy based on the extracted concepts.",
                 Kernel = kernel.Clone()
             };
