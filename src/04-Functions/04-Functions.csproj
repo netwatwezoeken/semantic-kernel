@@ -16,7 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="music-assistant.prompty">
+      <None Update="04-music-assistant.prompty">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

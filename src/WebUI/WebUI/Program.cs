@@ -1,6 +1,7 @@
 using _01_Basic;
 using _02_ChatHistory;
 using _03_Templating;
+using _04_Functions;
 using _06_AgentFramework;
 using MudBlazor.Services;
 using Plumbing;
@@ -16,6 +17,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddTransient<IDemo, _01Basic>();
 builder.Services.AddTransient<IDemo, _02ChatHistory>();
 builder.Services.AddTransient<IDemo, _03Templating>();
+builder.Services.AddTransient<IDemo, _04Functions>();
 builder.Services.AddTransient<IDemo, _06AgentFramework>();
 builder.Services.AddSingleton<DemoSelector>();
 builder.Services.AddSingleton<MessageRelay>();

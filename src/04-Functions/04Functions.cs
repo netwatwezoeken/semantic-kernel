@@ -2,22 +2,25 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Connectors.Ollama;
 using Plumbing;
 
-namespace _03_Templating;
+namespace _04_Functions;
 
-public class _03Templating : IDemo
+public class _04Functions : IDemo
 {
-    public string Name => "03 Templating";
-    public string[] Models => ["gemma3:4b"];
-    public string? DemoQuestion => "Which band invented metal?";
+    public string Name => "04 Functions";
+    public string[] Models => ["llama3.1:8b"];
+    public string? DemoQuestion => "Play the title song of the second album of the band that invented metal.";
     
     private void CreateKernel()
     {
-        _kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-            .Build();
-
-        var promptyTemplate = File.ReadAllText($"./03-music-assistant.prompty");
+        var kernelBuilder = Kernel.CreateBuilder()
+            .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"));
+            
+        kernelBuilder.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
         
+        _kernel  = kernelBuilder.Build();
+
+        var promptyTemplate = File.ReadAllText($"./04-music-assistant.prompty");
+
         _function = _kernel.CreateFunctionFromPrompty(promptyTemplate);
     }
     
@@ -44,7 +47,7 @@ public class _03Templating : IDemo
         var arguments = new KernelArguments(new OllamaPromptExecutionSettings()
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
-            Temperature = 0
+            Temperature = 0.8f
         });
 
         arguments.Add("question", message.Message);
@@ -59,7 +62,7 @@ public class _03Templating : IDemo
             });
     }
     
-    public _03Templating(MessageRelay relay)
+    public _04Functions(MessageRelay relay)
     {
         CreateKernel();
 
