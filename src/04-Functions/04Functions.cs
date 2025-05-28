@@ -1,4 +1,5 @@
 using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel.ChatCompletion;
 using Microsoft.SemanticKernel.Connectors.Ollama;
 using Plumbing;
 
@@ -18,10 +19,7 @@ public class _04Functions : IDemo
         kernelBuilder.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
         
         _kernel  = kernelBuilder.Build();
-
-        var promptyTemplate = File.ReadAllText($"./04-music-assistant.prompty");
-
-        _function = _kernel.CreateFunctionFromPrompty(promptyTemplate);
+        _chat = _kernel.GetRequiredService<IChatCompletionService>();
     }
     
     public Task Start()
@@ -39,26 +37,26 @@ public class _04Functions : IDemo
     private readonly MessageRelay _relay;
     private Kernel _kernel;
     private KernelFunction _function;
+    private IChatCompletionService _chat;
 
     private async Task HandleChatMessage(ChatMessage message)
     {
         if (message.From != "user") return;
         
-        var arguments = new KernelArguments(new OllamaPromptExecutionSettings()
+        var arguments = new OllamaPromptExecutionSettings()
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
             Temperature = 0.8f
-        });
+        };
 
-        arguments.Add("question", message.Message);
-
-        var chatResult = await _kernel.InvokeAsync(_function, arguments);
+        
+        var chatResult = await _chat.GetChatMessageContentsAsync(message.Message, arguments, _kernel);
         
         await _relay.HandleMessageAsync(
             new ChatMessage
             {
                 From = "assistant",
-                Message = chatResult.ToString()
+                Message = chatResult.First().Content ?? ""
             });
     }
     

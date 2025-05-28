@@ -14,10 +14,4 @@
     <ItemGroup>
         <ProjectReference Include="..\ConsoleHelper\ConsoleHelper.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <None Update="04-music-assistant.prompty">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
 </Project>
