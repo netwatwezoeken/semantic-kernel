@@ -6,7 +6,7 @@ using ModelContextProtocol.Protocol.Transport;
 using SharedStuff;
 
 var kernelBuilder = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"));
+    .AddOllamaChatCompletion("llama3.2:3b", new Uri("http://localhost:11434"));
 
 var transport = new SseClientTransport(new SseClientTransportOptions
 {
@@ -30,7 +30,7 @@ var chat = kernel.GetRequiredService<IChatCompletionService>();
 
 var chatHistory = new ChatHistory();
 
-var initialQuestion= DemoUtil.SimulateTyping("Play the second most popular song made by the band that invented metal");
+var initialQuestion= DemoUtil.SimulateTyping("Play the title song of the second album of the band that invented metal.");
 
 chatHistory.AddUserMessage([
     new TextContent(initialQuestion)

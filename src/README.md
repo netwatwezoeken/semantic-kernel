@@ -11,6 +11,7 @@ A bunch of examples that use [Microsoft's Semantic Kernel](https://github.com/mi
     ollama pull gemma3:4b
     ollama pull minicpm-v
     ollama pull llama3.1:8b
+    ollama pull llama3.2:3b
     ollama pull deepseek-r1:1.5b
     ollama pull mxbai-embed-large
     ```

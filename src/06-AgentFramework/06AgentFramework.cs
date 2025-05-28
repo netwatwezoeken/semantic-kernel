@@ -11,7 +11,7 @@ namespace _06_AgentFramework;
 public class _06AgentFramework : IDemo
 {
     public string Name => "06 AgentFramework";
-    public string[] Models => ["deepseek-r1:1.5b"];
+    public string[] Models => ["deepseek-r1:1.5b", "llama3.2:3b"];
     public string? DemoQuestion => "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour";
     private const int ResultTimeoutInSeconds = 3000;
     
@@ -26,7 +26,7 @@ public class _06AgentFramework : IDemo
 
         var kernel2 = Kernel.CreateBuilder()
             //.AddOpenAIChatCompletion(modelId: "gpt-4o-mini", apiKey: openAiKey)
-            .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("llama3.2:3b", new Uri("http://localhost:11434"))
             .Build();
         
         ChatCompletionAgent analystAgent =
