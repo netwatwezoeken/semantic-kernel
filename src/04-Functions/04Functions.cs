@@ -8,13 +8,13 @@ namespace _04_Functions;
 public class _04Functions : IDemo
 {
     public string Name => "04 Functions";
-    public string[] Models => ["llama3.1:8b"];
+    public string[] Models => ["mistral:7b"];
     public string? DemoQuestion => "Play the title song of the second album of the band that invented metal.";
     
     private void CreateKernel()
     {
         var kernelBuilder = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("llama3.1:8b", new Uri("http://localhost:11434"));
+            .AddOllamaChatCompletion("mistral:7b", new Uri("http://localhost:11434"));
             
         kernelBuilder.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
         
