@@ -1,5 +1,6 @@
 using System.Globalization;
 using CsvHelper;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.VectorData;
 using Microsoft.SemanticKernel.Connectors.Redis;
 using Microsoft.SemanticKernel.Embeddings;
@@ -12,14 +13,15 @@ public class EmbeddingsAndVectorStore : IExample
 {
     public async Task<string> Execute()
     {
-        ITextEmbeddingGenerationService textEmbeddingGenerationService = CreateTextEmbeddingGenerationService();
+       // ITextEmbeddingGenerationService //
+        IEmbeddingGenerator<string, Embedding<float>> embeddingGenerationService = CreateTextEmbeddingGenerationService();
 
-        IVectorStoreRecordCollection<string, EmbeddedUserStory> collection = await GetCollection();
+        VectorStoreCollection<string, EmbeddedUserStory> collection = await GetCollection();
 
-        var queryEmbedding = await textEmbeddingGenerationService.GenerateEmbeddingAsync(
+        var queryEmbedding = await embeddingGenerationService.GenerateAsync(
             "onboarding in an Android app that allows users to create a new account. The must verify their email address");
         
-        var searchResultItems = await collection.SearchEmbeddingAsync(
+        var searchResultItems = await collection.SearchAsync(
             queryEmbedding,
             options: new VectorSearchOptions<EmbeddedUserStory>
             {
@@ -31,12 +33,14 @@ public class EmbeddingsAndVectorStore : IExample
         {
             Console.WriteLine($"Match on {result.Record.Title}  --- {result.Record.Description}");
         }
+
+        var t =searchResultItems.Average(r => Convert.ToDecimal(r.Record.StoryPoints.Replace(".", ",")));
         
         return "";
     }
 
     public async Task Prepare(){
-        var textEmbeddingGenerationService = CreateTextEmbeddingGenerationService();
+        var embeddingGenerationService = CreateTextEmbeddingGenerationService();
                 
         var collection = await GetCollection();
         
@@ -47,28 +51,31 @@ public class EmbeddingsAndVectorStore : IExample
         foreach (var userStory in userStories)
         {
             Console.WriteLine(userStory.title);
-            var vectorStory = new EmbeddedUserStory(userStory);
-            vectorStory.Vector =
-                await textEmbeddingGenerationService.GenerateEmbeddingAsync(userStory.title + userStory.description);
+            var vectorStory = new EmbeddedUserStory(userStory)
+            {
+                Vector = (await embeddingGenerationService.GenerateAsync(
+                    userStory.title + userStory.description)).Vector
+            };
+            
             await collection.UpsertAsync(vectorStory);
         }
     }
-    
-    private static ITextEmbeddingGenerationService CreateTextEmbeddingGenerationService() =>
+
+    private static IEmbeddingGenerator<string, Embedding<float>> CreateTextEmbeddingGenerationService() =>
         new OllamaApiClient(new Uri("http://localhost:11434")
-                , "mxbai-embed-large")
-            .AsTextEmbeddingGenerationService();
+            , "mxbai-embed-large");
+        
     
-    private async Task<IVectorStoreRecordCollection<string, EmbeddedUserStory>> GetCollection()
+    private async Task<VectorStoreCollection<string, EmbeddedUserStory>> GetCollection()
     {
         var memoryStore = GetStore();
         var collection = memoryStore.GetCollection<string, EmbeddedUserStory>("stories");
 
-        await collection.CreateCollectionIfNotExistsAsync();
+        await collection.EnsureCollectionExistsAsync();
         return collection;
     }
     
-    public IVectorStore GetStore()
+    public VectorStore GetStore()
     {
         var rconfig = new ConfigurationOptions
         {

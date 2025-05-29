@@ -17,18 +17,18 @@ public class EmbeddedUserStory
         Title = story.title;
     }
 
-    [VectorStoreRecordKey]
+    [VectorStoreKey]
     public string Key { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string? StoryPoints { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string? Description { get; set; }
 
-    [VectorStoreRecordData]
+    [VectorStoreData]
     public string? Title { get; set; }
-
-    [VectorStoreRecordVector(1024)]
+    
+    [VectorStoreVector(1024)]
     public ReadOnlyMemory<float>? Vector { get; set; }
 }
