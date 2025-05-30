@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using _01_Basic;
 using Microsoft.AspNetCore.SignalR;
 using Plumbing;
@@ -20,6 +21,7 @@ public class ChatHub : Hub
     
     public async Task SendMessage(string user, string message)
     {
+        if (Activity.Current != null) Source.Current = Activity.Current.Context;
         await _relay.HandleMessageAsync(new ChatMessage()
         {
             From = "user",

@@ -1,6 +1,7 @@
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using Plumbing;
 
 namespace WebUI;
 
@@ -35,6 +36,7 @@ public static class OpenTelemetry
 
         otel.WithTracing(tracing =>
         {
+            tracing.AddSource(Source.SourceName);
             tracing.AddAspNetCoreInstrumentation();
             tracing.AddHttpClientInstrumentation(opt =>
             {
