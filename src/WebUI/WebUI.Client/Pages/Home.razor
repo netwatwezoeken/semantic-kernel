@@ -14,8 +14,10 @@
         string html = Markdown.ToHtml(@message.Message);
         //var type = message.From == "user" ? ChatBubblePosition.Start : ChatBubblePosition.End;
         <MudChat>
-            <MudChatHeader Name=@message.From>
-            </MudChatHeader>
+            @if (message.From != "instructor")
+            {
+                <MudChatHeader Name=@message.From />
+            }
             <MudAvatar Variant="Variant.Filled" Style="grid-row-start: 1;">
                 @switch (message.From)
                 {
@@ -28,6 +30,10 @@
                     case "user":
                         <MudIcon Color="Color.Dark" Icon="@Icons.Material.Filled.Person"
                                      Size="Size.Large"/>
+                        break;
+                    case "instructor":
+                        <MudIcon Color="Color.Warning" Icon="@Icons.Material.Filled.Info"
+                                 Size="Size.Large"/>
                         break;
                     case "assistant":
                     case "copywriter":

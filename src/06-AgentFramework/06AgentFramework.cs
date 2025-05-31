@@ -3,29 +3,23 @@ using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Orchestration;
 using Microsoft.SemanticKernel.Agents.Runtime.InProcess;
-using Microsoft.SemanticKernel.ChatCompletion;
 using Plumbing;
 
 namespace _06_AgentFramework;
 
-public class _06AgentFramework : IDemo
+public class _06AgentFramework : AbstractDemo
 {
-    public string Name => "06 AgentFramework";
-    public string[] Models => ["deepseek-r1:1.5b", "llama3.2:3b"];
-    public string? DemoQuestion => "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour";
-    private const int ResultTimeoutInSeconds = 3000;
-    
-    private void CreateKernel()
+    public _06AgentFramework(MessageRelay relay) : base(relay)
     {
-        var openAiKey = "";
+        Name = "06 AgentFramework";
+        DemoQuestion = "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour.";
+        Instruction = "Type a short userstory to get an estimate based on reference data";
         
         var kernel = Kernel.CreateBuilder()
-            //.AddOpenAIChatCompletion(modelId: "gpt-4o-mini", apiKey: openAiKey)
             .AddOllamaChatCompletion("deepseek-r1:1.5b", new Uri("http://localhost:11434"))
             .Build();
 
         var kernel2 = Kernel.CreateBuilder()
-            //.AddOpenAIChatCompletion(modelId: "gpt-4o-mini", apiKey: openAiKey)
             .AddOllamaChatCompletion("llama3.2:3b", new Uri("http://localhost:11434"))
             .Build();
         
@@ -83,6 +77,16 @@ public class _06AgentFramework : IDemo
          _runtime = new InProcessRuntime();
     }
 
+    protected override async Task<string> OnHandleUserMessage(ChatMessage message)
+    {
+        _runtime = new InProcessRuntime();
+        await _runtime.StartAsync();
+        var result = await _orchestration.InvokeAsync(message.Message, _runtime);
+        var text = await result.GetValueAsync(TimeSpan.FromSeconds(ResultTimeoutInSeconds));
+        await _runtime.RunUntilIdleAsync();
+        return text;
+    }
+    
     private ValueTask<string> ResultTransform(IList<ChatMessageContent> result, CancellationToken cancellationToken)
     {
         return new ValueTask<string>(result.Last().Content ?? "");
@@ -91,7 +95,7 @@ public class _06AgentFramework : IDemo
     private async ValueTask ResponseCallback(ChatMessageContent response)
     {
         Console.WriteLine($"\n# INTERMEDIATE: {response.Content}");
-        await _relay.HandleMessageAsync(
+        await Relay.HandleMessageAsync(
             new ChatMessage
             {
                 From = response.AuthorName ?? response.Role.Label,
@@ -99,42 +103,7 @@ public class _06AgentFramework : IDemo
             });
     }
     
-    public async Task Start()
-    {
-        _relay.OnMessageAsync += HandleChatMessage;
-    }
-
-    public async Task Stop()
-    {
-        try
-        {
-            await _runtime.StopAsync();
-        }
-        catch { }
-
-        _relay.OnMessageAsync -= HandleChatMessage;
-    }
-
-    private readonly MessageRelay _relay;
-    private IChatCompletionService _chat;
     private AgentOrchestration<string, string> _orchestration;
     private InProcessRuntime _runtime;
-
-    private async Task HandleChatMessage(ChatMessage message)
-    {
-        _runtime = new InProcessRuntime();
-        await _runtime.StartAsync();
-        if (message.From != "user") return;
-        var result = await _orchestration.InvokeAsync(message.Message, _runtime);
-        var text = await result.GetValueAsync(TimeSpan.FromSeconds(ResultTimeoutInSeconds));
-        Console.WriteLine($"\n#END  RESULT: {text}");
-        await _runtime.RunUntilIdleAsync();
-    }
-    
-    public _06AgentFramework(MessageRelay relay)
-    {
-        CreateKernel();
-
-        _relay = relay;
-    }
+    private const int ResultTimeoutInSeconds = 3000;
 }

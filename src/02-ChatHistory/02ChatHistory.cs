@@ -4,22 +4,19 @@ using Plumbing;
 
 namespace _02_ChatHistory;
 
-public class _02ChatHistory : IDemo
+public class _02ChatHistory : AbstractDemo
 {
-    public string Name => "02 ChatHistory";
-    public string[] Models => ["gemma3:4b"];
-    public string? DemoQuestion => "Which band invented metal?";
-    
-    private void CreateKernel()
+    public _02ChatHistory(MessageRelay relay) : base(relay)
     {
+        Name = "02 ChatHistory";
+        DemoQuestion = "Which band invented metal?";
+        Instruction = "Ask a question about metal music";
+        
         var kernel = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
             .Build();
         _chat = kernel.GetRequiredService<IChatCompletionService>();
-    }
-    
-    public Task Start()
-    {
+        
         _chatHistory = new ChatHistory();
         _chatHistory.AddSystemMessage(
             """
@@ -29,43 +26,20 @@ public class _02ChatHistory : IDemo
             Never give an explanation unless explicitly asked.
             """
         );
-        _relay.OnMessageAsync += HandleChatMessage;
-        return Task.CompletedTask;
     }
-
-    public Task Stop()
+    
+    protected override async Task<string> OnHandleUserMessage(ChatMessage message)
     {
-        _relay.OnMessageAsync -= HandleChatMessage;
-        return Task.CompletedTask;
-    }
-
-    private readonly MessageRelay _relay;
-    private IChatCompletionService _chat;
-    private ChatHistory _chatHistory;
-
-    private async Task HandleChatMessage(ChatMessage message)
-    {
-        if (message.From != "user" || _chat == null) return;
-        
         _chatHistory.AddUserMessage([
             new TextContent(message.Message)
         ]);
 
-        var response = await _chat.GetChatMessageContentsAsync(_chatHistory);
-        var messageContent = response.First().Content;
+        var result = await _chat.GetChatMessageContentsAsync(_chatHistory);
+        var messageContent = result.First().Content ?? "";
         _chatHistory.AddAssistantMessage(messageContent);
-        await _relay.HandleMessageAsync(
-            new ChatMessage
-            {
-                From = "assistant",
-                Message = response.First().Content ?? ""
-            });
+        return messageContent;
     }
-    
-    public _02ChatHistory(MessageRelay relay)
-    {
-        CreateKernel();
 
-        _relay = relay;
-    }
+    private readonly IChatCompletionService _chat;
+    private ChatHistory _chatHistory;
 }

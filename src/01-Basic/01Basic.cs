@@ -4,52 +4,30 @@ using Plumbing;
 
 namespace _01_Basic;
 
-public class _01Basic : IDemo
+public class _01Basic : AbstractDemo
 {
-    public string Name => "01 Basic";
-    public string[] Models => ["gemma3:4b"];
-    public string? DemoQuestion => "Which band invented metal? Just give the band name, no explanation.";
+    public _01Basic(MessageRelay relay) : base(relay)
+    {
+        _chat = CreateChat();
+        Name = "01 Basic";
+        DemoQuestion = "Which band invented metal? Just give the band name, no explanation.";
+        Instruction = "Type your question.";
+    }
     
-    private void CreateKernel()
+    private static IChatCompletionService CreateChat()
     {
         var kernel = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
             .Build();
 
-        _chat = kernel.GetRequiredService<IChatCompletionService>();
-    }
-    
-    public Task Start()
-    {
-        _relay.OnMessageAsync += HandleChatMessage;
-        return Task.CompletedTask;
+        return kernel.GetRequiredService<IChatCompletionService>();
     }
 
-    public Task Stop()
-    {
-        _relay.OnMessageAsync -= HandleChatMessage;
-        return Task.CompletedTask;
-    }
-
-    private readonly MessageRelay _relay;
-    private IChatCompletionService _chat;
-
-    private async Task HandleChatMessage(ChatMessage message)
-    {
-        if (message.From != "user" || _chat == null) return;
-            
+    protected override async Task<string> OnHandleUserMessage(ChatMessage message)
+    {   
         var response = await _chat.GetChatMessageContentsAsync(message.Message);
-        await _relay.HandleMessageAsync(
-            new ChatMessage
-            {
-                From = "assistant",
-                Message = response.First().Content ?? ""
-            });
+        return response[0].Content ?? "";
     }
     
-    public _01Basic(MessageRelay relay)
-    {
-        CreateKernel();
-        _relay = relay;
-    }
+    private readonly IChatCompletionService _chat;
 }

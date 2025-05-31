@@ -4,43 +4,24 @@ using Plumbing;
 
 namespace _03_Templating;
 
-public class _03Templating : IDemo
+public class _03Templating : AbstractDemo
 {
-    public string Name => "03 Templating";
-    public string[] Models => ["gemma3:4b"];
-    public string? DemoQuestion => "Which band invented metal?";
-    
-    private void CreateKernel()
+    public _03Templating(MessageRelay relay) : base(relay)
     {
+        Name = "03 Templating";
+        DemoQuestion = "Which band invented metal?";
+        Instruction = "Ask a question about metal music";
+        
         _kernel = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
             .Build();
-
         var promptyTemplate = File.ReadAllText($"./03-music-assistant.prompty");
         
         _function = _kernel.CreateFunctionFromPrompty(promptyTemplate);
     }
-    
-    public Task Start()
-    {
-        _relay.OnMessageAsync += HandleChatMessage;
-        return Task.CompletedTask;
-    }
 
-    public Task Stop()
+    protected override async Task<string> OnHandleUserMessage(ChatMessage message)
     {
-        _relay.OnMessageAsync -= HandleChatMessage;
-        return Task.CompletedTask;
-    }
-
-    private readonly MessageRelay _relay;
-    private Kernel _kernel;
-    private KernelFunction _function;
-
-    private async Task HandleChatMessage(ChatMessage message)
-    {
-        if (message.From != "user") return;
-        
         var arguments = new KernelArguments(new OllamaPromptExecutionSettings()
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
@@ -49,20 +30,10 @@ public class _03Templating : IDemo
 
         arguments.Add("question", message.Message);
 
-        var chatResult = await _kernel.InvokeAsync(_function, arguments);
-        
-        await _relay.HandleMessageAsync(
-            new ChatMessage
-            {
-                From = "assistant",
-                Message = chatResult.ToString()
-            });
+        var result = await _kernel.InvokeAsync(_function, arguments);
+        return result.ToString();
     }
     
-    public _03Templating(MessageRelay relay)
-    {
-        CreateKernel();
-
-        _relay = relay;
-    }
+    private readonly Kernel _kernel;
+    private readonly KernelFunction _function;
 }

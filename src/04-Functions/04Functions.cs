@@ -5,14 +5,14 @@ using Plumbing;
 
 namespace _04_Functions;
 
-public class _04Functions : IDemo
+public class _04Functions : AbstractDemo
 {
-    public string Name => "04 Functions";
-    public string[] Models => ["mistral:7b"];
-    public string? DemoQuestion => "Play the title song of the second album of the band that invented metal.";
-    
-    private void CreateKernel()
+    public _04Functions(MessageRelay relay) : base(relay)
     {
+        Name = "04 Functions";
+        DemoQuestion = "Play the title song of the second album of the band that invented metal.";
+        Instruction = "Ask a for a song to be played";
+        
         var kernelBuilder = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("mistral:7b", new Uri("http://localhost:11434"));
             
@@ -21,49 +21,19 @@ public class _04Functions : IDemo
         _kernel  = kernelBuilder.Build();
         _chat = _kernel.GetRequiredService<IChatCompletionService>();
     }
-    
-    public Task Start()
-    {
-        _relay.OnMessageAsync += HandleChatMessage;
-        return Task.CompletedTask;
-    }
 
-    public Task Stop()
+    protected override async Task<string> OnHandleUserMessage(ChatMessage message)
     {
-        _relay.OnMessageAsync -= HandleChatMessage;
-        return Task.CompletedTask;
-    }
-
-    private readonly MessageRelay _relay;
-    private Kernel _kernel;
-    private KernelFunction _function;
-    private IChatCompletionService _chat;
-
-    private async Task HandleChatMessage(ChatMessage message)
-    {
-        if (message.From != "user") return;
-        
         var arguments = new OllamaPromptExecutionSettings()
         {
             FunctionChoiceBehavior = FunctionChoiceBehavior.Auto(),
             Temperature = 0.8f
         };
-
         
-        var chatResult = await _chat.GetChatMessageContentsAsync(message.Message, arguments, _kernel);
-        
-        await _relay.HandleMessageAsync(
-            new ChatMessage
-            {
-                From = "assistant",
-                Message = chatResult.First().Content ?? ""
-            });
+        var result = await _chat.GetChatMessageContentsAsync(message.Message, arguments, _kernel);
+        return result[0].Content ?? "";
     }
     
-    public _04Functions(MessageRelay relay)
-    {
-        CreateKernel();
-
-        _relay = relay;
-    }
+    private readonly Kernel _kernel;
+    private readonly IChatCompletionService _chat;
 }

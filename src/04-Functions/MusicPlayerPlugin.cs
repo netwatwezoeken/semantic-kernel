@@ -15,6 +15,6 @@ public class MusicPlayerPlugin
         Console.WriteLine($"MusicPlayerPlugin: Playing {song} by {artist}");
         Thread.Sleep(100);
         
-        activity.Ok();
+        activity?.Ok();
     }
 }
