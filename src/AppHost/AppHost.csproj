@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\05b-MCPServer\05b-MCPServer.csproj" />
       <ProjectReference Include="..\WebUI\WebUI\WebUI.csproj" />
     </ItemGroup>
 

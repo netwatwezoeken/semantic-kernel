@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <RootNamespace>_05a-MCPClient</RootNamespace>
+        <RootNamespace>_05a_MCPClient</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

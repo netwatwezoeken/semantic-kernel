@@ -1,15 +1,17 @@
 using System.ComponentModel;
+using Microsoft.Extensions.Logging;
 using ModelContextProtocol.Server;
 
 namespace _05b_MCPServer;
 
 [McpServerToolType]
-public class PlaySongTool
+public class PlaySongTool(ILogger<PlaySongTool> logger)
 {
     [McpServerTool, Description("Plays a song.")]
-    public static string PlaySong(string artist, string song)
+    public string PlaySong(string artist, string song)
     {
-        Console.WriteLine($"Playing {song} by {artist}");
+        Thread.Sleep(100);
+        logger.LogWarning($"Playing {song} by {artist}");
         return $"Playing {song} by {artist}";
     }
 }
