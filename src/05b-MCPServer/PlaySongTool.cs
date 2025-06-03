@@ -11,7 +11,7 @@ public class PlaySongTool(ILogger<PlaySongTool> logger)
     public string PlaySong(string artist, string song)
     {
         Thread.Sleep(100);
-        logger.LogWarning($"Playing {song} by {artist}");
+        logger.LogWarning("Playing {Song} by {Artist}", song, artist);
         return $"Playing {song} by {artist}";
     }
 }

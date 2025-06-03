@@ -4,6 +4,8 @@ using _03_Templating;
 using _04_Functions;
 using _05a_MCPClient;
 using _06_AgentFramework;
+using _07_Rag;
+using Microsoft.AspNetCore.Mvc;
 using MudBlazor.Services;
 using Plumbing;
 using WebUI;
@@ -15,12 +17,19 @@ builder.Services.AddMudServices();
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.AddRedisClient(connectionName: "vectorStore");
+
 builder.Services.AddTransient<IDemo, _01Basic>();
 builder.Services.AddTransient<IDemo, _02ChatHistory>();
 builder.Services.AddTransient<IDemo, _03Templating>();
 builder.Services.AddTransient<IDemo, _04Functions>();
 builder.Services.AddTransient<IDemo, _05MCPClient>();
 builder.Services.AddTransient<IDemo, _06AgentFramework>();
+builder.Services.AddTransient<IDemo, _07Rag>();
+builder.Services.AddSingleton<_07RagPrepare>();
+builder.Services.AddSingleton<_07Rag>()
+    .AddSingleton<IDemo, _07Rag>(p => p.GetRequiredService<_07Rag>());
 builder.Services.AddSingleton<DemoSelector>();
 builder.Services.AddSingleton<MessageRelay>();
 builder.Services.AddSignalR();
@@ -45,6 +54,7 @@ app.UseHttpsRedirection();
 
 app.UseAntiforgery();
 app.MapHub<ChatHub>("/chathub");
+app.MapGet("/prepare07", ([FromServices] _07RagPrepare rag) => rag.Prepare());
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()

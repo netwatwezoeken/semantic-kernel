@@ -14,9 +14,11 @@
         <ProjectReference Include="..\..\04-Functions\04-Functions.csproj" />
         <ProjectReference Include="..\..\05a-MCPClient\05a-MCPClient.csproj" />
         <ProjectReference Include="..\..\06-AgentFramework\06-AgentFramework.csproj" />
+        <ProjectReference Include="..\..\07-Rag\07-Rag.csproj" />
         <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
         <ProjectReference Include="..\WebUI.Client\WebUI.Client.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5"/>
+        <PackageReference Include="Aspire.StackExchange.Redis" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" />

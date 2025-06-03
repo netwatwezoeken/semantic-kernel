@@ -9,10 +9,11 @@ public class ConsoleUi
     public ConsoleUi(MessageRelay relay)
     {
         _relay = relay;
-        _relay.OnMessageAsync += async (message) =>
+        _relay.OnMessageAsync += (message) =>
         {
-            if (message.From == "user") return;
+            if (message.From == "user") return Task.CompletedTask;
             Console.WriteLine($"{message.From}: {message.Message}");
+            return Task.CompletedTask;
         };
     }
     
@@ -32,7 +33,7 @@ public class ConsoleUi
             await _relay.HandleMessageAsync(new ChatMessage()
             {
                 From = "user",
-                Message = question
+                Message = question ?? ""
             });
         }
     }

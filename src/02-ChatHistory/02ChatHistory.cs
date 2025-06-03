@@ -41,5 +41,5 @@ public class _02ChatHistory : AbstractDemo
     }
 
     private readonly IChatCompletionService _chat;
-    private ChatHistory _chatHistory;
+    private readonly ChatHistory _chatHistory;
 }

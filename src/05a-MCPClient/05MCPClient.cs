@@ -43,6 +43,7 @@ public class _05MCPClient : AbstractDemo
 
     protected override async Task<string> OnHandleUserMessage(ChatMessage message)
     {
+        if(_chatHistory is null || _chat is null) return "";
         _chatHistory.AddUserMessage([
             new TextContent(message.Message)
         ]);
@@ -52,9 +53,9 @@ public class _05MCPClient : AbstractDemo
         return messageContent;
     }
     
-    private Kernel _kernel;
-    private IChatCompletionService _chat;
+    private Kernel? _kernel;
+    private IChatCompletionService? _chat;
     private readonly IKernelBuilder _kernelBuilder;
-    private ChatHistory _chatHistory;
-    private OllamaPromptExecutionSettings _settings;
+    private ChatHistory? _chatHistory;
+    private OllamaPromptExecutionSettings? _settings;
 }

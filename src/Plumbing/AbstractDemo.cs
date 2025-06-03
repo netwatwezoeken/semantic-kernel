@@ -2,9 +2,9 @@ namespace Plumbing;
 
 public abstract class AbstractDemo : IDemo
 {
-    public string Name { get; protected init; }
-    public string DemoQuestion { get; protected init; }
-    public string Instruction  { get; protected init; }
+    public string Name { get; protected init; } = null!;
+    public string DemoQuestion { get; protected init; } = null!;
+    public string Instruction  { get; protected init; } = null!;
 
     protected readonly MessageRelay Relay;
 

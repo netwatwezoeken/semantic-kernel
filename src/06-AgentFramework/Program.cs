@@ -187,7 +187,7 @@ public sealed class OrchestrationMonitor
         this.History.Add(response);
         Console.WriteLine(response.AuthorName);
         //Console.WriteLine(response.Role);
-        Console.WriteLine(response.Content[..Math.Min(50, response.Content.Length)]);
+        Console.WriteLine(response.Content?[..Math.Min(50, response.Content.Length)]);
         return ValueTask.CompletedTask;
     }
 }

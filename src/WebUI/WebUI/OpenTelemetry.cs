@@ -10,8 +10,8 @@ public static class OpenTelemetry
     public static IHostApplicationBuilder ConfigureOpenTelemetry(
         this IHostApplicationBuilder builder)
     {
-        if (string.IsNullOrWhiteSpace(
-                builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]))
+        var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
+        if (string.IsNullOrEmpty(otlpEndpoint))
         {
             return builder;
         }
@@ -22,7 +22,7 @@ public static class OpenTelemetry
             l.IncludeScopes = true;
             l.AddOtlpExporter(exporter =>
             {
-                exporter.Endpoint = new Uri(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+                exporter.Endpoint = new Uri(otlpEndpoint);
             });
         });
 
@@ -116,7 +116,7 @@ public static class OpenTelemetry
                 
             tracing.AddOtlpExporter(opt =>
             {
-                opt.Endpoint = new Uri(builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+                opt.Endpoint = new Uri(otlpEndpoint);
             });
         });
         return builder;
