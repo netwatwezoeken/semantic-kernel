@@ -4,3 +4,4 @@ obj
 *.user
 .DS_Store
 src/Examples/data/dump.rdb
+src/07-Rag/data

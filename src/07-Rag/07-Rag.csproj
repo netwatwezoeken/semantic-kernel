@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <RootNamespace>_07_Rag</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="CsvHelper" />
+        <PackageReference Include="Microsoft.Extensions.AI.Ollama" />
+        <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" />
+        <PackageReference Include="Microsoft.SemanticKernel.Agents.Orchestration" />
+        <PackageReference Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" />
+        <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" />
+        <PackageReference Include="Microsoft.SemanticKernel.Prompty" />
+        <PackageReference Include="StackExchange.Redis" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ConsoleHelper\ConsoleHelper.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="07-estimator.prompty">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="issues.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+</Project>

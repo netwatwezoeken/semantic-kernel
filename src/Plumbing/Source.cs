@@ -8,13 +8,13 @@ public static class Source
     public static ActivityContext Current { get; set; }
     private static readonly ActivitySource ASource = new ActivitySource(SourceName, "1.0.0");
     
-    public static Activity CreateActivity(string name, ActivityContext context)
+    public static Activity? CreateActivity(string name, ActivityContext context)
     {
         Activity? activity = null;
         try
         {
             activity = ASource.StartActivity(name, ActivityKind.Internal, context);
-            return activity ?? throw new Exception("Activity is null");
+            return activity;
         }
         catch
         {
