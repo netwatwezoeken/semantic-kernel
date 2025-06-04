@@ -27,7 +27,7 @@ else
     var demo = new _07Rag(mr, multiplexer);
     var cw = new ConsoleUi(mr);
     await demo.Start();
-    await cw.Run(demo.DemoQuestion!);
+    await cw.Run(demo.DemoQuestion);
 }
 
 

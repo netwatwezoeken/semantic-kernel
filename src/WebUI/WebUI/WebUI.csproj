@@ -18,7 +18,6 @@
         <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
         <ProjectReference Include="..\WebUI.Client\WebUI.Client.csproj"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5"/>
-        <PackageReference Include="Aspire.StackExchange.Redis" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" />

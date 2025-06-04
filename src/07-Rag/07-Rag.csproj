@@ -12,7 +12,6 @@
         <PackageReference Include="Microsoft.SemanticKernel.Agents.Orchestration" />
         <PackageReference Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" />
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" />
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" />
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" />
         <PackageReference Include="Microsoft.SemanticKernel.Prompty" />
         <PackageReference Include="StackExchange.Redis" />

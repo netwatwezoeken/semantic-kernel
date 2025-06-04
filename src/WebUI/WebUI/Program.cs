@@ -8,6 +8,7 @@ using _07_Rag;
 using Microsoft.AspNetCore.Mvc;
 using MudBlazor.Services;
 using Plumbing;
+using StackExchange.Redis;
 using WebUI;
 using WebUI.Components;
 
@@ -18,7 +19,19 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.AddRedisClient(connectionName: "vectorStore");
+var rconfig = new ConfigurationOptions
+{
+    EndPoints =
+    {
+        "localhost:6379"
+    },
+    AbortOnConnectFail = false,
+    ConnectRetry = 10,
+    ReconnectRetryPolicy = new ExponentialRetry(5000),
+    ClientName = "ApiClient"
+};
+            
+var multiplexer = ConnectionMultiplexer.Connect(rconfig);
 
 builder.Services.AddTransient<IDemo, _01Basic>();
 builder.Services.AddTransient<IDemo, _02ChatHistory>();
@@ -27,6 +40,7 @@ builder.Services.AddTransient<IDemo, _04Functions>();
 builder.Services.AddTransient<IDemo, _05MCPClient>();
 builder.Services.AddTransient<IDemo, _06AgentFramework>();
 builder.Services.AddTransient<IDemo, _07Rag>();
+builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
 builder.Services.AddSingleton<_07RagPrepare>();
 builder.Services.AddSingleton<_07Rag>()
     .AddSingleton<IDemo, _07Rag>(p => p.GetRequiredService<_07Rag>());

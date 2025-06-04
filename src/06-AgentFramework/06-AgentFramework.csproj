@@ -11,7 +11,6 @@
         <PackageReference Include="Microsoft.SemanticKernel.Agents.Orchestration" />
         <PackageReference Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" />
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" />
-        <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" />
     </ItemGroup>
 
     <ItemGroup>
