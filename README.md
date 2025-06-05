@@ -1,7 +1,5 @@
+This repository contains for the presentation and the C# example code for:
+# Semantic Kernel for Developers: A Hands-On Guide to AI Integration
 
-
-The deployment is basic auth protected, see the labels in docker-compose.yml
-
-- create the password using `htpasswd -nb user password | sed -e s/\\$/\\$\\$/g`
-- create a .env file with a line `SECRET=<output of the above>`
+Please see `presentation` adn `src` for more information
 

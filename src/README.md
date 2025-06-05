@@ -16,13 +16,36 @@ A bunch of examples that use [Microsoft's Semantic Kernel](https://github.com/mi
     ollama pull deepseek-r1:1.5b
     ollama pull mxbai-embed-large
     ```
-- Enough VRAM/RAM for the GPU/CPU. Approx 8GB
+- Enough RAM for the GPU/CPU. Approx 8GB
 
 The examples are intended to demonstrate and experiment with the Semantic Kernel library. And thus the models are kept as lightweight as possible.
 
-### References
+## Run the examples
+
+All examples can be run as a standalone application. Most examples are also available  via `WebUI`. To also see messages http content to and from the LLMs run the Aspire project `AppHost`.
+
+### 01 Basic Chat
+A fundamental chat implementation demonstrating the core chat functionality.
+
+### 02 Chat History
+Extends the basic chat with history to have a conversation
+
+### 03 Templating
+Shows how templates ([Prompty.ai](https://prompty.ai/)) can be used. 
+
+### 04 Functions
+Demonstrates how to use tools. A way have the LLM call your code.
+
+### 06 Agent Framework
+Implementation showcasing AI agent orchestration
+
+### 07 RAG
+Retrieval Augmented Generation (RAG)
+
+## References
 
 Presentation: https://sk.netwatwezoeken.nl/
 
-`issues.csv` in the EmbeddingsAndVectorStore example taken from: https://huggingface.co/datasets/giseldo/neodataset
-`issues-70.csv` and `issues-30.csv` together are the same set randomly selected in to a 70% and 30% part.
+`issues.csv` in the RAG example taken from: https://huggingface.co/datasets/giseldo/neodataset
+
+[Prompty.ai](https://prompty.ai/)

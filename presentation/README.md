@@ -1,3 +1,11 @@
+# Note to self
+
+The deployment is basic auth protected, see the labels in docker-compose.yml
+
+create the password using htpasswd -nb user password | sed -e s/\\$/\\$\\$/g
+create a .env file with a line SECRET=<output of the above>
+
+# Original reveal.js readme content
 <p align="center">
   <a href="https://revealjs.com">
   <img src="https://hakim-static.s3.amazonaws.com/reveal-js/logo/v1/reveal-black-text-sticker.png" alt="reveal.js" width="500">

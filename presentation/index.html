@@ -34,17 +34,32 @@
                 </section>
 
                 <section>
+                    <h3>Semantic Kernel</h3>
                     <ul>
-                        <li class="fragment">AI orchestration framework</li>
-                        <li class="fragment">Search & Vectors</li>
-                        <li class="fragment">Tools & MCP</li>
-                        <li class="fragment">Agents</li>
+                        <li>AI orchestration framework</li>
+                        <li>Search & Vectors</li>
+                        <li>Tools & MCP</li>
+                        <li>Agents</li>
                     </ul>
                     <br>
                     <br>
                     <div class="fragment">
                         Available for Python, Java & <span style="color: #d8a0df;">C#</span>
                     </div>
+                </section>
+
+                <section>
+                    <h3>Concepts</h3>
+                    <br />
+                    <br />
+                    <ul>
+                        <li>Tools</li>
+                        <li>RAG</li>
+                        <li>Context</li>
+                        <li>Prompt templates</li>
+                        <li>MCP</li>
+                        <li>Agent orchestration</li>
+                    </ul>
                 </section>
 
                 <section data-visibility="hidden">
@@ -239,19 +254,19 @@ var kernel = kernelBuilder.Build();
 
                 <section>
                     <section>
-                        <h3>MCP</h3>
+                        <h3>Model Context Protocol</h3>
                         <br />
                         <br />
-                        <ul>
-                            <li class="fragment">Tools</li>
-                            <li class="fragment">Resources</li>
-                            <li class="fragment">Prompts</li>
-                            <li class="fragment">Sampling</li>
+                        <ul class="fragment">
+                            <li>Tools</li>
+                            <li>Resources</li>
+                            <li>Prompts</li>
+                            <li>Sampling</li>
                         </ul>
                         <br>
                         <br>
                         <div class="fragment">
-                            I see it as OpenApi for AI stuff
+                            See it as OpenApi<sup>++</sup> for AI
                         </div>
                         <aside class="notes">
                             <ul>
@@ -263,7 +278,7 @@ var kernel = kernelBuilder.Build();
                         </aside>
                     </section>
                     <section>
-                        <h3>MCP</h3>
+                        <h3>Model Context Protocol</h3>
                         <br />
                         <br />
                         <div class="mermaid">
@@ -303,45 +318,218 @@ var kernel = kernelBuilder.Build();
                 <section>
                     <section>
                         <h3>RAG</h3>
+                        <h5>Retrieval Augmented Generation</h5>
                         <br />
                         <br />
-                        RAG with User Stories
+                        <div class="mermaid">
+            <pre>
+    %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart LR
+        user(["User"]) -- input --> p1[/embed/]
+        p1 -- input --> embedllm
+        embedllm -- vector --> p1
+        p1 -- vector --> db[(Store)]
+        db -- best matches --> p2{{sfd}}
+        user -- input --> p2[/create prompt/]
+        p2 -- prompt -->llm
+        llm -- output --> user
+        llm["Query LLM"]
+        embedllm["Embed LLM"]
+        embedllm@{ shape: hex}
+        llm@{ shape: hex}
+            </pre>
+                        </div>
                     </section>
                     <section>
-    <pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
-    </code></pre>
+                        <h5>3d vector</h5>
+                        <img class="r-stretch" style="clip-path: inset(0 0 0 0);" data-src="assets/vector.svg" alt="">
+                    </section>
+                    <section>
+                        <h5>Vector search</h5>
+                        <img class="r-stretch" style="clip-path: inset(0 0 0 0);" data-src="assets/vector-search.png" alt="">
+                    </section>
+                    <section>
+                        <h5>Embeddings are vectors</h5>
+                        <blockquote>Lorem ipsum dolor sit amet, consectetur adipiscing</blockquote>
+                        <img class="r-stretch" style="clip-path: inset(0 0 0 0);" data-src="assets/1024_dimensional_vector.png" alt="">
+                    </section>
+                    <section>
+                        <h4>Estimating story points, the data</h4>
+                        <br />
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                            <ul>
+                                <li>HuggingFace 🤗</li>
+                                <li>20,5k rows</li>
+                                <li>Natural language user stories</li>
+                            </ul>
+                            <img style="width: 75%; object-fit: contain;"
+                                 data-src="assets/userstory.png" alt="">
+                        </div>
                     </section>
                 </section>
 
                 <section>
                     <section>
-                        <h3>Agents</h3>
+                        <h3>Agent framework</h3>
                         <br />
                         <br />
-                        Theory on agents, no demo
                     </section>
                     <section>
+                        <h3>Concurrent orchestration</h3>
+                        <br />
+                        <div class="mermaid r-stretch">
+            <pre>
+    %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart TD
+        i(["input"]) --> a1["Agent 1"]
+        i --> a2["Agent 2"]
+        i --> a3["Agent 3"]
+        a1 --> c["Collector (aggregates)"]
+        a2 --> c
+        a3 --> c
+        c --> o(["output"])
+        a1@{ shape: hex}
+        a2@{ shape: hex}
+        a3@{ shape: hex}
+            </pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Concurrent orchestration</h3>
+                        <br />
     <pre><code data-trim data-noescape>
-var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
-    .Build();
+Kernel kernel = ...;
+
+ChatCompletionAgent physicist = new ChatCompletionAgent{
+    Name = "PhysicsExpert",
+    Instructions = "You are an expert in physics. You answer from physics perspective."
+    Kernel = kernel,
+};
+
+ChatCompletionAgent chemist = new ChatCompletionAgent{
+    Name = "ChemistryExpert",
+    Instructions = "You are an expert in chemistry. You answer from chemistry perspective."
+    Kernel = kernel,
+};
+
+ConcurrentOrchestration orchestration = new (physicist, chemist);
+
+InProcessRuntime runtime = new InProcessRuntime();
+await runtime.StartAsync();
+
+var result = await orchestration.InvokeAsync("What is temperature?", runtime);
     </code></pre>
+                    </section>
+                    <section>
+                        <h3>Sequential orchestration</h3>
+                        <div class="mermaid r-stretch">
+            <pre>
+                        %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                        flowchart TD
+                        i(["input"]) --> a1["Agent 1"]
+                        a1 --> a2["Agent 2"]
+                        a2 --> a3["Agent 3"]
+                        a3 --> o(["output"])
+                        a1@{ shape: hex}
+                        a2@{ shape: hex}
+                        a3@{ shape: hex}
+            </pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Handoff orchestration</h3>
+                        <br />
+                        <div class="mermaid r-stretch">
+            <pre>
+    %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+    flowchart TD
+        i(["input"]) --> a1["Agent 1"]
+        h1["Human 1"] <--> a1
+        a1 -- handoff --> a2["Agent 2"]
+        a1 -- handoff --> a3["Agent 3"]
+        a1 -- done --> o(["output"])
+        a2 -- done --> o
+        a3 -- done --> o
+        a1@{ shape: hex}
+        a2@{ shape: hex}
+        a3@{ shape: hex}
+            </pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Handoff orchestration</h3>
+                        <pre class="r-stretch"><code data-trim data-noescape>
+var handoffs = OrchestrationHandoffs
+    .StartWith(triageAgent)
+    .Add(triageAgent, statusAgent, returnAgent)
+    .Add(statusAgent, triageAgent, "Transfer to this agent if the issue is not status related")
+    .Add(returnAgent, triageAgent, "Transfer to this agent if the issue is not return related");
+
+HandoffOrchestration orchestration = new HandoffOrchestration(
+    handoffs,
+    triageAgent,
+    statusAgent,
+    returnAgent)
+{
+    InteractiveCallback = interactiveCallback,
+    ResponseCallback = responseCallback,
+};
+
+ValueTask<ChatMessageContent> interactiveCallback()
+{
+    var input = Console.ReadLine();
+    return ValueTask.FromResult(new ChatMessageContent(AuthorRole.User, input));
+}
+
+InProcessRuntime runtime = new InProcessRuntime();
+await runtime.StartAsync();
+
+var result = await orchestration.InvokeAsync("I need help with my orders", runtime);
+    </code></pre>
+                    </section>
+
+                    <section>
+                        <h3>Magentic orchestration</h3>
+                        <a href="https://www.microsoft.com/en-us/research/articles/magentic-one-a-generalist-multi-agent-system-for-solving-complex-tasks/">https://www.microsoft.com/en-us/research/articles/magentic-one-a-generalist-multi-agent-system-for-solving-complex-tasks/</a></li>
+<br/>
+                        <img class="r-stretch" data-src="assets/magentic_example.png" alt="">
                     </section>
                 </section>
 
                 <section>
-                    <ul>
-                        <li>https://learn.microsoft.com/en-us/semantic-kernel/overview/</li>
-                        <li>https://modelcontextprotocol.io/introduction</li>
-                        <li>User story dataset: https://huggingface.co/datasets/giseldo/neodataset</li>
-                    </ul>
+                    <section>
+                        <h3>Process framework</h3>
+                        <br />
+                        <br />
+                        <img class="r-stretch" data-src="assets/whatever.gif" alt="">
+                        <p>
+                            Do you really want that big of an (AI) framework dependency?
+                        </p>
+                    </section>
                 </section>
 
                 <section>
                     <h1>Thanks!</h1>
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; align-items: center;">
+                        <div>
+                            <h5>Slide deck and code</h5>
+                            <ul style="text-align: left; font-size: 1.5rem;">
+                                <li><a href="https://sk.netwatwezoeken.nl">https://sk.netwatwezoeken.nl</a></li>
+                                <li><a href="https://github.com/netwatwezoeken/semantic-kernel">https://github.com/netwatwezoeken/semantic-kernel</a></li>
+                            </ul>
+                            <h5>References</h5>
+                            <ul style="text-align: left; font-size: 1.5rem;">
+                                <li>Microsoft Learn:<br /> <a href="https://learn.microsoft.com/en-us/semantic-kernel/overview/">https://learn.microsoft.com/en-us/semantic-kernel/overview/</a></li>
+                                <li>Mcp Specification:<br /> <a href="https://modelcontextprotocol.io/introduction">https://modelcontextprotocol.io/introduction</a></li>
+                                <li>User story data sets:<br /> <a href="https://huggingface.co/datasets/giseldo/neodataset">https://huggingface.co/datasets/giseldo/neodataset</a></li>
+                                <li>Vector Search:<br /> <a href="https://www.couchbase.com/blog/what-is-vector-search/">https://www.couchbase.com/blog/what-is-vector-search/</a></li>
+                                <li>Magnetic-One:<br /> <a href="https://www.microsoft.com/en-us/research/articles/magentic-one-a-generalist-multi-agent-system-for-solving-complex-tasks/">https://www.microsoft.com/en-us/research/...</a></li>
+                            </ul>
+                        </div>
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+                            <img style="width: 100%; height: 100%; object-fit: contain;" data-src="assets/presentation-qr-code.png" alt="">
+                        </div>
+                    </div>
                 </section>
             </div>
             <div class="bottom">{.NET wat we zoeken}</div>

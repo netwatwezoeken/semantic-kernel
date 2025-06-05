@@ -6,8 +6,8 @@ services:
       - traefik.http.routers.sk.rule=Host(`sk.netwatwezoeken.nl`)
       - traefik.http.routers.sk.tls=true
       - traefik.docker.network=proxy
-      - traefik.http.routers.sk.middlewares=auth
-      - traefik.http.middlewares.auth.basicauth.users=${SECRET}
+#      - traefik.http.routers.sk.middlewares=auth
+#      - traefik.http.middlewares.auth.basicauth.users=${SECRET}
     networks:
       - proxy
 
