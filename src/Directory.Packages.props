@@ -11,13 +11,13 @@
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.13.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.13.0" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.13.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Core" Version="1.54.0" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Orchestration" Version="1.54.0-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" Version="1.54.0-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.54.0-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.54.0-alpha" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.54.0-preview" />
-    <PackageVersion Include="Microsoft.SemanticKernel.Prompty" Version="1.54.0-beta" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Core" Version="1.56.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Orchestration" Version="1.56.0-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Agents.Runtime.InProcess" Version="1.56.0-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.InMemory" Version="1.56.0-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.56.0-alpha" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Connectors.Redis" Version="1.56.0-preview" />
+    <PackageVersion Include="Microsoft.SemanticKernel.Prompty" Version="1.56.0-beta" />
     <PackageVersion Include="ModelContextProtocol" Version="0.1.0-preview.12" />
     <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.1.0-preview.12" />
     <PackageVersion Include="StackExchange.Redis" Version="2.9.32" />
