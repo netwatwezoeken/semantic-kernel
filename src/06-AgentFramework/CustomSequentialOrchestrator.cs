@@ -30,7 +30,7 @@ public class CustomSequentialThing<TInput, TOutput> : AgentOrchestration<TInput,
         {
             throw new ArgumentException("Entry agent is not defined.", nameof(entryAgent));
         }
-        await runtime.SendMessageAsync(CustomSequentialMessages.AsRequestMessage(input), entryAgent.Value).ConfigureAwait(false);
+        await runtime.PublishMessageAsync(input.AsRequestMessage(), entryAgent.Value).ConfigureAwait(false);
     }
 
     /// <inheritdoc />
@@ -44,12 +44,14 @@ public class CustomSequentialThing<TInput, TOutput> : AgentOrchestration<TInput,
         {
             Agent agent = this.Members[index];
             nextAgent = await RegisterAgentAsync(agent, index, nextAgent).ConfigureAwait(false);
+
+            logger.LogRegisterActor(this.OrchestrationLabel, nextAgent, "MEMBER", index + 1);
         }
 
         return nextAgent;
 
         ValueTask<AgentType> RegisterAgentAsync(Agent agent, int index, AgentType nextAgent) =>
-            runtime.RegisterAgentFactoryAsync(
+            runtime.RegisterOrchestrationAgentAsync(
                 this.GetAgentType(context.Topic, index),
                 (agentId, runtime) =>
                 {
@@ -68,4 +70,21 @@ public class CustomSequentialThing<TInput, TOutput> : AgentOrchestration<TInput,
     }
 
     private AgentType GetAgentType(TopicId topic, int index) => this.FormatAgentType(topic, $"Agent_{index + 1}");
+}
+
+internal static partial class AgentOrchestrationLogMessages
+{
+    /// <summary>
+    /// Logs agent actor registration.
+    /// </summary>
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Information,
+        Message = "REGISTER ACTOR {Orchestration} {label} #{Count}: {AgentType}")]
+    public static partial void LogRegisterActor(
+        this ILogger logger,
+        string orchestration,
+        AgentType agentType,
+        string label,
+        int count);
 }

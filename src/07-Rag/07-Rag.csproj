@@ -14,7 +14,8 @@
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" />
         <PackageReference Include="Microsoft.SemanticKernel.Connectors.Redis" />
         <PackageReference Include="Microsoft.SemanticKernel.Prompty" />
-        <PackageReference Include="StackExchange.Redis" />
+        <PackageReference Include="StackExchange.Redis"/>
+        <PackageReference Include="System.Linq.Async"/>
     </ItemGroup>
 
     <ItemGroup>

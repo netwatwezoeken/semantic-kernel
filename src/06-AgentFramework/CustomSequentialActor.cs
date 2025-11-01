@@ -56,6 +56,6 @@ internal sealed class CustomSequentialActor :
 
         ChatMessageContent response = await this.InvokeAsync(input, messageContext.CancellationToken).ConfigureAwait(false);
 
-        await this.SendMessageAsync(response.AsResponseMessage(), this._nextAgent, messageContext.CancellationToken).ConfigureAwait(false);
+        await this.PublishMessageAsync(response.AsResponseMessage(), this._nextAgent, messageContext.CancellationToken).ConfigureAwait(false);
     }
 }

@@ -12,7 +12,7 @@ public class _06AgentFramework : AbstractDemo
     public _06AgentFramework(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "06 AgentFramework";
-        DemoQuestion = "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour.";
+        DemoQuestion = "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hours.";
         Instruction = "Describe a new product in short to have the marketing team create content for it.";
         
         var kernel = Kernel.CreateBuilder()
@@ -58,7 +58,7 @@ public class _06AgentFramework : AbstractDemo
                     give format, make it shorter and make it polished. Output the final improved copy as a single text block.
                     """,
                 Description = "An agent that formats and proofreads the marketing copy.",
-                Kernel = kernel.Clone()
+                Kernel = kernel2.Clone()
             };
         
         _orchestration =
