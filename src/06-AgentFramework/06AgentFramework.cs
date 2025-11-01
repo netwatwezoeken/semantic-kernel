@@ -9,18 +9,18 @@ namespace _06_AgentFramework;
 
 public class _06AgentFramework : AbstractDemo
 {
-    public _06AgentFramework(MessageRelay relay) : base(relay)
+    public _06AgentFramework(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "06 AgentFramework";
         DemoQuestion = "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour.";
         Instruction = "Type a short userstory to get an estimate based on reference data";
         
         var kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("deepseek-r1:1.5b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("deepseek-r1:1.5b", ollamaConfig.Uri)
             .Build();
 
         var kernel2 = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("llama3.2:3b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("llama3.2:3b", ollamaConfig.Uri)
             .Build();
         
         ChatCompletionAgent analystAgent =

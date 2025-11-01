@@ -3,7 +3,7 @@ using _03_Templating;
 using Plumbing;
 
 var mr = new MessageRelay();
-var demo = new _03Templating(mr);
+var demo = new _03Templating(mr, new OllamaConfig());
 await demo.Start();
 var cw = new ConsoleUi(mr);
 await cw.Run(demo.DemoQuestion);

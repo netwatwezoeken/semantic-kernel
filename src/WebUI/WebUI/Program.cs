@@ -19,20 +19,10 @@ builder.Services.AddMudServices();
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
-var rconfig = new ConfigurationOptions
-{
-    EndPoints =
-    {
-        "localhost:6379"
-    },
-    AbortOnConnectFail = false,
-    ConnectRetry = 10,
-    ReconnectRetryPolicy = new ExponentialRetry(5000),
-    ClientName = "ApiClient"
-};
-            
-var multiplexer = ConnectionMultiplexer.Connect(rconfig);
+var redisConnectionString = builder.Configuration.GetConnectionString("Redis");
+var multiplexer = ConnectionMultiplexer.Connect(redisConnectionString);
 
+builder.Services.AddTransient<OllamaConfig>();
 builder.Services.AddTransient<IDemo, _01Basic>();
 builder.Services.AddTransient<IDemo, _02ChatHistory>();
 builder.Services.AddTransient<IDemo, _03Templating>();

@@ -13,7 +13,7 @@ namespace _07_Rag;
 
 public class _07Rag : AbstractDemo
 {
-    public _07Rag(MessageRelay relay, IConnectionMultiplexer multiplexer) : base(relay)
+    public _07Rag(MessageRelay relay, IConnectionMultiplexer multiplexer, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "07 Rag";
         DemoQuestion = "Onboarding in an Android app that allows users to create a new account. They must verify their email address";
@@ -21,13 +21,13 @@ public class _07Rag : AbstractDemo
         
         // The estimation LLM
         _kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("gemma3:4b", ollamaConfig.Uri)
             .Build();
         var promptyTemplate = File.ReadAllText($"./07-estimator.prompty");
         _function = _kernel.CreateFunctionFromPrompty(promptyTemplate);
         
         // Emmbedding LLM
-        _embeddingGenerationService = new OllamaApiClient(new Uri("http://localhost:11434"),"mxbai-embed-large");
+        _embeddingGenerationService = new OllamaApiClient(ollamaConfig.Uri,"mxbai-embed-large");
         
         // Vector store
         var database = multiplexer.GetDatabase();

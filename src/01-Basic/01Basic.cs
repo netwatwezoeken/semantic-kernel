@@ -6,18 +6,18 @@ namespace _01_Basic;
 
 public class _01Basic : AbstractDemo
 {
-    public _01Basic(MessageRelay relay) : base(relay)
+    public _01Basic(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
-        _chat = CreateChat();
+        _chat = CreateChat(ollamaConfig.Uri);
         Name = "01 Basic";
         DemoQuestion = "Which band invented metal? Just give the band name, no explanation.";
         Instruction = "Type your question.";
     }
     
-    private static IChatCompletionService CreateChat()
+    private static IChatCompletionService CreateChat(Uri ollamaUri)
     {
         var kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("gemma3:4b", ollamaUri)
             .Build();
 
         return kernel.GetRequiredService<IChatCompletionService>();

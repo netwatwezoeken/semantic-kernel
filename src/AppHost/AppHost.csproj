@@ -13,11 +13,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.0" />
+        <PackageReference Include="Aspire.Hosting.AppHost" Version="9.5.2" />
+        <PackageReference Include="Aspire.Hosting.Redis" Version="9.5.2" />
+        <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.8.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\05b-MCPServer\05b-MCPServer.csproj" />
+      <ProjectReference Include="..\07-Rag\07-Rag.csproj" />
       <ProjectReference Include="..\WebUI\WebUI\WebUI.csproj" />
     </ItemGroup>
 

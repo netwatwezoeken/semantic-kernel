@@ -9,14 +9,14 @@ namespace _05a_MCPClient;
 
 public class _05MCPClient : AbstractDemo
 {
-    public _05MCPClient(MessageRelay relay) : base(relay)
+    public _05MCPClient(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "05 MCPClient";
         DemoQuestion = "Play the title song of the second album of the band that invented metal.";
         Instruction = "Ask a for a song to be played";
         
         _kernelBuilder = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("mistral:7b", new Uri("http://localhost:11434"));
+            .AddOllamaChatCompletion("mistral:7b", ollamaConfig.Uri);
     }
 
     protected override async Task BeforeStart()

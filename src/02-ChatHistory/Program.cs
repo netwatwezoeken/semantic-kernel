@@ -3,7 +3,7 @@ using SharedStuff;
 using Plumbing;
 
 var mr = new MessageRelay();
-var demo = new _02ChatHistory(mr);
+var demo = new _02ChatHistory(mr, new OllamaConfig());
 await demo.Start();
 var cw = new ConsoleUi(mr);
 await cw.Run(demo.DemoQuestion);

@@ -3,7 +3,7 @@ using SharedStuff;
 using Plumbing;
 
 var mr = new MessageRelay();
-var demo = new _05MCPClient(mr);
+var demo = new _05MCPClient(mr, new OllamaConfig());
 await demo.Start();
 var cw = new ConsoleUi(mr);
 await cw.Run(demo.DemoQuestion);

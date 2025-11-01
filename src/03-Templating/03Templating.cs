@@ -6,14 +6,14 @@ namespace _03_Templating;
 
 public class _03Templating : AbstractDemo
 {
-    public _03Templating(MessageRelay relay) : base(relay)
+    public _03Templating(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "03 Templating";
         DemoQuestion = "Which band invented metal?";
         Instruction = "Ask a question about metal music";
         
         _kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("gemma3:4b", ollamaConfig.Uri)
             .Build();
         var promptyTemplate = File.ReadAllText($"./03-music-assistant.prompty");
         

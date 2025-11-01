@@ -6,14 +6,14 @@ namespace _02_ChatHistory;
 
 public class _02ChatHistory : AbstractDemo
 {
-    public _02ChatHistory(MessageRelay relay) : base(relay)
+    public _02ChatHistory(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "02 ChatHistory";
         DemoQuestion = "Which band invented metal?";
         Instruction = "Ask a question about metal music";
         
         var kernel = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("gemma3:4b", new Uri("http://localhost:11434"))
+            .AddOllamaChatCompletion("gemma3:4b", ollamaConfig.Uri)
             .Build();
         _chat = kernel.GetRequiredService<IChatCompletionService>();
         

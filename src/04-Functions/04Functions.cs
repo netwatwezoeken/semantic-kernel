@@ -7,14 +7,14 @@ namespace _04_Functions;
 
 public class _04Functions : AbstractDemo
 {
-    public _04Functions(MessageRelay relay) : base(relay)
+    public _04Functions(MessageRelay relay, OllamaConfig ollamaConfig) : base(relay)
     {
         Name = "04 Functions";
         DemoQuestion = "Play the title song of the second album of the band that invented metal.";
         Instruction = "Ask a for a song to be played";
         
         var kernelBuilder = Kernel.CreateBuilder()
-            .AddOllamaChatCompletion("mistral:7b", new Uri("http://localhost:11434"));
+            .AddOllamaChatCompletion("mistral:7b", ollamaConfig.Uri);
             
         kernelBuilder.Plugins.AddFromType<MusicPlayerPlugin>("PlaySong");
         
