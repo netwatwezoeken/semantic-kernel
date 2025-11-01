@@ -17,7 +17,7 @@
         <ProjectReference Include="..\..\07-Rag\07-Rag.csproj" />
         <ProjectReference Include="..\..\Plumbing\Plumbing.csproj" />
         <ProjectReference Include="..\WebUI.Client\WebUI.Client.csproj"/>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.5"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.10" />
         <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.12.0" />
         <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
