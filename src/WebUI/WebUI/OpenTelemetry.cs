@@ -11,6 +11,8 @@ public static class OpenTelemetry
     public static IHostApplicationBuilder ConfigureOpenTelemetry(
         this IHostApplicationBuilder builder)
     {
+        AppContext.SetSwitch("Microsoft.SemanticKernel.Experimental.GenAI.EnableOTelDiagnosticsSensitive", true);
+
         var otlpEndpoint = builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"];
         if (string.IsNullOrEmpty(otlpEndpoint))
         {
@@ -29,11 +31,13 @@ public static class OpenTelemetry
                 metrics.AddAspNetCoreInstrumentation();
                 metrics.AddMeter("Microsoft.AspNetCore.Hosting");
                 metrics.AddMeter("Microsoft.AspNetCore.Server.Kestrel");
+                metrics.AddMeter("Microsoft.SemanticKernel*");
             })
             .WithTracing(tracing =>
             {
                 tracing.AddSource(Source.SourceName);
                 tracing.AddAspNetCoreInstrumentation();
+                tracing.AddSource("Microsoft.SemanticKernel*");
                 tracing.AddHttpClientInstrumentation(opt =>
                 {
                     opt.EnrichWithHttpResponseMessage = async void (activity, httpResponseMessage) =>
