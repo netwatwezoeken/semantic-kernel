@@ -13,7 +13,7 @@ public class _06AgentFramework : AbstractDemo
     {
         Name = "06 AgentFramework";
         DemoQuestion = "An eco-friendly stainless steel water bottle that keeps drinks cold for 24 hour.";
-        Instruction = "Type a short userstory to get an estimate based on reference data";
+        Instruction = "Describe a new product in short to have the marketing team create content for it.";
         
         var kernel = Kernel.CreateBuilder()
             .AddOllamaChatCompletion("deepseek-r1:1.5b", ollamaConfig.Uri)
