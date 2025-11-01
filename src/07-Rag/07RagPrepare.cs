@@ -54,7 +54,7 @@ public class _07RagPrepare
     private readonly VectorStore _store;
 
     private static IEmbeddingGenerator<string, Embedding<float>> CreateTextEmbeddingGenerationService() =>
-        new OllamaApiClient(new Uri("http://localhost:11434")
+        new OllamaApiClient(new OllamaConfig().Uri
             , "mxbai-embed-large");
     
     private async Task<VectorStoreCollection<string, EmbeddedUserStory>> GetCollection()

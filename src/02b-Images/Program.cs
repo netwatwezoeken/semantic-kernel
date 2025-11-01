@@ -1,9 +1,10 @@
 ﻿using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
+using Plumbing;
 using SharedStuff;
 
 var kernel = Kernel.CreateBuilder()
-    .AddOllamaChatCompletion("minicpm-v", new Uri("http://localhost:11434"))
+    .AddOllamaChatCompletion("minicpm-v", new OllamaConfig().Uri)
     .Build();
 
 var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
