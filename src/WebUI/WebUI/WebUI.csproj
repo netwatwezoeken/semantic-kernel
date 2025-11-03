@@ -11,7 +11,9 @@
         <ProjectReference Include="..\..\01-Basic\01-Basic.csproj" />
         <ProjectReference Include="..\..\02-ChatHistory\02-ChatHistory.csproj" />
         <ProjectReference Include="..\..\03-Templating\03-Templating.csproj" />
+        <ProjectReference Include="..\..\03b-PromptFilter\03b-PromptFilter.csproj" />
         <ProjectReference Include="..\..\04-Functions\04-Functions.csproj" />
+        <ProjectReference Include="..\..\04b-FunctionFilter\04b-FunctionFilter.csproj" />
         <ProjectReference Include="..\..\05a-MCPClient\05a-MCPClient.csproj" />
         <ProjectReference Include="..\..\06-AgentFramework\06-AgentFramework.csproj" />
         <ProjectReference Include="..\..\07-Rag\07-Rag.csproj" />

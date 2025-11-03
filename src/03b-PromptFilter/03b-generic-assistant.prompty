@@ -1,0 +1,16 @@
+---
+name: Generic_assistant
+description: A generic prompt assistant
+model:
+  api: chat
+  configuration:
+    name: gemma3:4b
+sample:
+  question: "What is Fight Club?"
+---
+
+system:
+Never give an explanation unless explicitly asked.
+
+user:
+{{question}}

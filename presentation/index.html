@@ -256,6 +256,49 @@ var kernel = kernelBuilder.Build();
 
                 <section>
                     <section>
+                        <h3>Filtering</h3>
+                        <br />
+                        <ul class="fragment">
+                            <li>Prompt filtering</li>
+                            <li>Function filtering</li>
+                        </ul>
+                    </section>
+                    <section>
+<pre><code data-trim data-noescape>
+_kernel.PromptRenderFilters.Add(new FightClubFilter());
+</code></pre>
+<pre><code data-trim data-noescape>
+try
+{
+    var result = await _kernel.InvokeAsync(_function, arguments);
+    return result.ToString();
+}
+catch (ContentException ex)
+{
+    return ex.Message;
+}
+</code></pre>
+<pre><code data-trim data-noescape>
+public class FightClubFilter : IPromptRenderFilter
+{
+    public async Task OnPromptRenderAsync(PromptRenderContext context, Func<PromptRenderContext, Task> next)
+    {
+        await next(context);
+
+        var prompt = context.RenderedPrompt;
+        if (prompt !=null &&
+            prompt.Contains("Fight Club", StringComparison.InvariantCultureIgnoreCase))
+        {
+            throw new ContentException("We don't talk about Fight Club.");
+        }
+    }
+}
+    </code></pre>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
                         <h3>Model Context Protocol</h3>
                         <br />
                         <br />
@@ -508,7 +551,6 @@ var result = await orchestration.InvokeAsync("I need help with my orders", runti
                             <li>Chunking</li>
                             <li>Text Search</li>
                             <li>Image recognition</li>
-                            <li>Filtering</li>
                             <li>Process framework</li>
                         </ul>
                     </section>
