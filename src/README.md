@@ -10,11 +10,20 @@ A fundamental chat implementation demonstrating the core chat functionality.
 ### 02 Chat History
 Extends the basic chat with history to have a conversation
 
+### 02b Images
+Demonstrates the ability to upload binary data to the LLM
+
 ### 03 Templating
 Shows how templates ([Prompty.ai](https://prompty.ai/)) can be used.
 
+### 03b PromptFilter
+Filtering of user input
+
 ### 04 Functions
 Demonstrates how to use tools. A way to have the LLM call your code.
+
+### 04b FunctionFilter
+Securing fuction calls
 
 ### 05 MCP
 Demonstrates how to use MCP. A way to have the LLM call your other software through MCP.
@@ -49,12 +58,17 @@ On first run, pulling the models can take a while. Subsequent runs are fast than
 
 Use the Aspire dashboard to discover see traces.
 
+### A note on performance
+Although the models used are lightweight the examples can mostlikely be a lot faster on your machine.
+Either enable `.WithGPUSupport(OllamaGpuVendor.AMD)` or `.WithGPUSupport(OllamaGpuVendor.AMD)` to allow Ollama to access your GPU.
+On Mac it is better run run Ollama outside of Docker. To do so instal [Ollama](https://ollama.com/download) and in the AppHost `appsettings.json` set `RunOllamaInDocker` to `false`
+
 ## Running the WebUI
 
 Aspire is the remmomended way to run the examples. But yu can also run the WebUI project directly.
 
 ### Additional prerequisites
-- Manual setup: install [Ollama](https://ollama.com/) and pull the required models yourself:
+- Manual setup: install [Ollama](https://ollama.com/download) and pull the required models yourself:
   ```bash
   ollama pull gemma3:4b
   ollama pull minicpm-v
